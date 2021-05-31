@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.View.Fragments;
+package ir.tdaapp.carpro.carpro.Views.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import ir.tdaapp.carpro.carpro.MainActivity;
+import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {

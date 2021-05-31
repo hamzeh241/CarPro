@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro;
+package ir.tdaapp.carpro.carpro.Views.Activities;
 
 import androidx.annotation.AnimRes;
 import androidx.annotation.AnimatorRes;
@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import ir.tdaapp.carpro.carpro.View.Fragments.HomeFragment;
+import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 

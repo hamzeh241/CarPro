@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.View.Fragments;
+package ir.tdaapp.carpro.carpro.Views.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
