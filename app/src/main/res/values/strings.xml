@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CarPro</string>
+    <string name="member_managment">مدیریت اعضا</string>
+    <string name="accepted_cars">خودرو های تایید شده</string>
+    <string name="waiting_for_accept">در انتظار تایید</string>
+    <string name="archived_cars">ارشیو خودرو ها</string>
+    <string name="SamaneShaar">جامع ترین سامانه آگهی املاک سنندج</string>
+    <string name="Reload">بارگذاری مجدد</string>
+
+
+</resources>
