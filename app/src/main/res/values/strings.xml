@@ -6,6 +6,10 @@
     <string name="archived_cars">ارشیو خودرو ها</string>
     <string name="SamaneShaar">جامع ترین سامانه آگهی املاک سنندج</string>
     <string name="Reload">بارگذاری مجدد</string>
+    <string name="Password" >رمز عبور</string>
+    <string name="login">ورود</string>
+    <string name="txtAddAccount">حساب کاربری نداری؟ همین الان ثبت نام کن</string>
+    <string name="AddAccount">حساب کاربری ایجاد کن</string>
 
 
 </resources>

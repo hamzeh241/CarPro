@@ -52,19 +52,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
 
             case R.id.members_layout:
-                ((MainActivity)getActivity()).onAddFragment(new MemberFragment(),0,0,true,MemberFragment.TAG);
+                ((MainActivity)getActivity()).onAddFragment(new MemberFragment(),R.anim.fadein,R.anim.fadeout,true,MemberFragment.TAG);
             break;
 
             case R.id.accepted_cars_layout:
-                ((MainActivity)getActivity()).onAddFragment(new AcceptedCarsFragment(),0,0,true,AcceptedCarsFragment.TAG);
+                ((MainActivity)getActivity()).onAddFragment(new AcceptedCarsFragment(),R.anim.fadein,R.anim.fadeout,true,AcceptedCarsFragment.TAG);
             break;
 
             case R.id.waiting_layout:
-                ((MainActivity)getActivity()).onAddFragment(new WaitingToAcceptFragment(),0,0,true,WaitingToAcceptFragment.TAG);
+                ((MainActivity)getActivity()).onAddFragment(new WaitingToAcceptFragment(),R.anim.fadein,R.anim.fadeout,true,WaitingToAcceptFragment.TAG);
             break;
 
             case R.id.archived_layout:
-                ((MainActivity)getActivity()).onAddFragment(new CarArchivedFragment(),0,0,true,CarArchivedFragment.TAG);
+                ((MainActivity)getActivity()).onAddFragment(new CarArchivedFragment(),R.anim.fadein,R.anim.fadeout,true,CarArchivedFragment.TAG);
             break;
         }
 
