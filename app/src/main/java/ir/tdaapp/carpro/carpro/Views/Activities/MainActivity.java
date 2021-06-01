@@ -8,11 +8,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import ir.tdaapp.carpro.carpro.R;
-import ir.tdaapp.carpro.carpro.Views.Fragments.FragmentLogIn;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
-import ir.tdaapp.carpro.carpro.Views.Fragments.SplashFragment;
+import ir.tdaapp.carpro.carpro.Views.Fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        onAddFragment(new HomeFragment(),R.anim.fadein,R.anim.fadein,true,HomeFragment.TAG);
+        onAddFragment(new LoginFragment(),0,0,false,LoginFragment.TAG);
     }
 
 
@@ -44,5 +44,4 @@ public class MainActivity extends AppCompatActivity {
         }
         transaction.commit();
     }
-
 }

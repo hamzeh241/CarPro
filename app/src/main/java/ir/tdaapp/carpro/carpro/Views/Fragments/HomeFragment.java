@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.R;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public static final String TAG = "HomeFragment";
 
     LinearLayout memberlayout,acceptedCarslayout,waitingLayout,archivedlayout;

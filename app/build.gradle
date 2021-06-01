@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "ir.tdaapp.carpro.carpro"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -40,6 +40,14 @@ dependencies {
 
     implementation project(path: ':li_volley')
     implementation project(path: ':li_utility')
+    implementation project(path: ':li_image')
+
+    //MKLoader
+    implementation 'com.tuyenmonkey:mkloader:1.4.0'
+
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //circleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'

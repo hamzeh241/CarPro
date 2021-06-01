@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 
-public class SplashFragment extends Fragment {
+public class SplashFragment extends BaseFragment {
 
 
     public static final String TAG = "SplashFragment";

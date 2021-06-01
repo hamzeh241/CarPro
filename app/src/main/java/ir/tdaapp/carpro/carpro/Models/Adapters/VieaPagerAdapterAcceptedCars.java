@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.Views.Adapters;
+package ir.tdaapp.carpro.carpro.Models.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
