@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
+import ir.tdaapp.carpro.carpro.databinding.FragmentSplashBinding;
 
 public class SplashFragment extends BaseFragment {
 
@@ -27,14 +28,15 @@ public class SplashFragment extends BaseFragment {
     CountDownTimer timer;
     Button btn_Reload;
 
+    FragmentSplashBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_splash,container,false);
+       binding = FragmentSplashBinding.inflate(inflater,container,false);
 
-        findView(view);
         DateTime();
-        return view;
+        return binding.getRoot();
     }
 
     public void findView(View view){

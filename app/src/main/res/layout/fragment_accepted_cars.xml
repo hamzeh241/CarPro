@@ -12,7 +12,7 @@
         android:background="@color/colorBlue">
 
         <ImageButton
-            android:id="@+id/img_back"
+            android:id="@+id/img_back_accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/img_back"
+            android:layout_toLeftOf="@id/img_back_accept"
             android:text="خودرو های تایید شده"
             android:textColor="@color/white" />
     </RelativeLayout>
@@ -36,6 +36,7 @@
         android:id="@+id/tabLayoutAcceptedCars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:layout_marginTop="56dp"
         android:layoutDirection="ltr"
         android:minHeight="?attr/actionBarSize"
@@ -43,7 +44,8 @@
         app:tabIndicatorColor="@color/colorBlue"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorBlue"
-        app:tabTextColor="@color/colorBlack" />
+        app:tabTextColor="@color/colorBlack"
+        android:focusable="true" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerAcceptedCars"

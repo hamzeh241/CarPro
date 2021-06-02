@@ -10,6 +10,8 @@
     <string name="login">ورود</string>
     <string name="txtAddAccount">حساب کاربری نداری؟ همین الان ثبت نام کن</string>
     <string name="AddAccount">حساب کاربری ایجاد کن</string>
+    <string name="title_code">کد دریافتی را وارد کنید..</string>
+    <string name="user_not_configurate">حساب کاربری شما توسط ادمین تایید نشده است</string>
 
 
 </resources>

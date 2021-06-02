@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        onAddFragment(new LoginFragment(),0,0,false,LoginFragment.TAG);
+        onAddFragment(new HomeFragment(),0,0,false,HomeFragment.TAG);
     }
 
 

@@ -10,48 +10,59 @@ import java.util.SimpleTimeZone;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import ir.tdaapp.carpro.carpro.Models.Services.AuthorizeDialogService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Presenters.AuthorizeDialogPresenter;
+import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.databinding.DialogAuthorizeBinding;
 
 public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogService, View.OnClickListener {
 
-  AuthorizeDialogPresenter presenter;
+    public static final String TAG = "AuthorizeDialog";
 
-  @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    AuthorizeDialogPresenter presenter;
 
-    implement();
-    return super.onCreateView(inflater, container, savedInstanceState);
-  }
+    DialogAuthorizeBinding binding;
 
-  private void implement() {
-    presenter = new AuthorizeDialogPresenter(getContext(), this);
-  }
 
-  @Override
-  public void onClick(View v) {
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-  }
+        binding = DialogAuthorizeBinding.inflate(inflater, container, false);
 
-  @Override
-  public void onLoading(boolean state) {
 
-  }
+        implement();
+        return binding.getRoot();
+    }
 
-  @Override
-  public void onError(String message) {
+    private void implement() {
+        presenter = new AuthorizeDialogPresenter(getContext(), this);
+    }
 
-  }
+    @Override
+    public void onClick(View v) {
 
-  @Override
-  public void onDataReceived(ApiDefaultResponse response) {
+    }
 
-  }
+    @Override
+    public void onLoading(boolean state) {
 
-  @Override
-  public void onPresenterStart() {
+    }
 
-  }
+    @Override
+    public void onError(String message) {
+
+    }
+
+    @Override
+    public void onDataReceived(ApiDefaultResponse response) {
+
+    }
+
+    @Override
+    public void onPresenterStart() {
+
+    }
 }

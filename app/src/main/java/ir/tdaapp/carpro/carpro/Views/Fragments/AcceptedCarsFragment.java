@@ -7,15 +7,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
-import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Models.Adapters.VieaPagerAdapterAcceptedCars;
+import ir.tdaapp.carpro.carpro.R;
 
-public class AcceptedCarsFragment extends BaseFragment {
+public class AcceptedCarsFragment extends Fragment {
 
     public static final String TAG = "AcceptedCarsFragment";
 
