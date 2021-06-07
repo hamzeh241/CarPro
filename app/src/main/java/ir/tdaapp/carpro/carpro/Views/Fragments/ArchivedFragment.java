@@ -9,16 +9,55 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import ir.tdaapp.carpro.carpro.Models.Services.RejectedCarsService;
+import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
+import ir.tdaapp.carpro.carpro.Presenters.RejectedCarsPresenter;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
+import ir.tdaapp.carpro.carpro.databinding.FragmentArchivedCarsViewPagerBinding;
 
-public class ArchivedFragment extends Fragment {
+public class ArchivedFragment extends Fragment implements RejectedCarsService {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  RejectedCarsPresenter presenter;
 
-        View view = inflater.inflate(R.layout.fragment_archived_cars_view_pager,container,false);
+  FragmentArchivedCarsViewPagerBinding binding;
 
-        return view;
-    }
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    binding = FragmentArchivedCarsViewPagerBinding.inflate(inflater, container, false);
+
+    implement();
+
+    return binding.getRoot();
+  }
+
+  private void implement() {
+    presenter = new RejectedCarsPresenter(getContext(), this);
+  }
+
+  @Override
+  public void onPresenterStart() {
+
+  }
+
+  @Override
+  public void onItemReceived(CarModel item) {
+
+  }
+
+  @Override
+  public void onError(String message) {
+
+  }
+
+  @Override
+  public void onLoading(boolean state) {
+
+  }
+
+  @Override
+  public void onFinish() {
+
+  }
 }

@@ -13,7 +13,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
-import ir.tdaapp.carpro.carpro.Models.Adapters.ViewPagerAdapterMember;
 import ir.tdaapp.carpro.carpro.R;
 
 public class MemberFragment extends Fragment {
@@ -22,7 +21,6 @@ public class MemberFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager;
-    ViewPagerAdapterMember adapter;
 
     @Nullable
     @Override
@@ -42,38 +40,9 @@ public class MemberFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        adapter = new ViewPagerAdapterMember(manager,getLifecycle());
 
     }
     public void implement(){
-            viewPager.setAdapter(adapter);
-            tabLayout.addTab(tabLayout.newTab().setText("ثبت"));
-            tabLayout.addTab(tabLayout.newTab().setText("ویرایش اعضا"));
 
-            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    viewPager.setCurrentItem(tab.getPosition());
-                }
-
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-
-                }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-
-                }
-            });
-
-
-            viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                   tabLayout.selectTab(tabLayout.getTabAt(position));
-                }
-            });
     }
 }

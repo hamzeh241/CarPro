@@ -9,46 +9,50 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import ir.tdaapp.carpro.carpro.Models.Repository.AuthorizeRepository;
-import ir.tdaapp.carpro.carpro.Models.Services.AuthorizeDialogService;
+import ir.tdaapp.carpro.carpro.Models.Repository.SignupRepository;
+import ir.tdaapp.carpro.carpro.Models.Services.SignupFragmentService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 
-public class AuthorizeDialogPresenter {
+public class SignupFragmentPresenter {
 
   Context context;
-  AuthorizeDialogService service;
-  AuthorizeRepository repository;
+  SignupFragmentService service;
+  SignupRepository repository;
   Disposable disposable;
 
-  public AuthorizeDialogPresenter(Context context, AuthorizeDialogService service) {
+  public SignupFragmentPresenter(Context context, SignupFragmentService service) {
     this.context = context;
     this.service = service;
-    repository = new AuthorizeRepository();
+    repository = new SignupRepository();
   }
 
-  public void start(String phoneNumber, String password) {
+  public void start(String cellPhone, String imageUrl, String fullName, String email) {
     service.onPresenterStart();
-    authorize(phoneNumber, password);
+
   }
 
-  private void authorize(String phoneNumber, String password) {
-    service.onLoading(true);
+  private void signup(String cellPhone, String imageUrl, String fullName, String email) {
+    service.onLoading(false);
     JSONObject object = new JSONObject();
+
     try {
-      object.put("PhoneNumber", phoneNumber);
-      object.put("Password", password);
+      object.put("CellPhone", cellPhone);
+      object.put("Image", imageUrl);
+      object.put("FullName", fullName);
+      object.put("Email", email);
     } catch (JSONException e) {
       service.onLoading(false);
       service.onError(e.getMessage());
       e.printStackTrace();
     }
 
-    Single<ApiDefaultResponse> data = repository.authorize(object);
+    Single<ApiDefaultResponse> data = repository.signup(object);
+
     disposable = data.subscribeWith(new DisposableSingleObserver<ApiDefaultResponse>() {
       @Override
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
         service.onLoading(false);
-        service.onDataReceived(apiDefaultResponse);
+        service.onResponseReceived(apiDefaultResponse);
       }
 
       @Override

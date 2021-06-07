@@ -8,11 +8,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
-import ir.tdaapp.carpro.carpro.Views.Fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         onAddFragment(new HomeFragment(),0,0,false,HomeFragment.TAG);
     }
-
 
 
     public void onAddFragment(Fragment fragment,
