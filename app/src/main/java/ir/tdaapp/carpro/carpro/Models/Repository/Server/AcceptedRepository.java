@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.Models.Repository;
+package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,14 +13,14 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 import ir.tdaapp.li_volley.Volleys.GetJsonArrayVolley;
 
-public class RejectedRepository extends BaseRepository {
+public class AcceptedRepository extends BaseRepository {
 
   GetJsonArrayVolley volley;
 
-  public Single<List<CarModel>> getItems(int page) {
+  public Single<List<CarModel>> getItems(int userId, int page) {
     return Single.create(emitter -> new Thread(() -> {
 
-      volley = new GetJsonArrayVolley(API_URL + "api/CarPro/GetRejectedCars?page=" + page, resault -> {
+      volley = new GetJsonArrayVolley(API_URL + "api/CarPro/GetAcceptedCars?userId=" + userId + "&page=" + page, resault -> {
 
         if (resault.getResault() == ResaultCode.Success) {
           JSONArray array = resault.getJsonArray();

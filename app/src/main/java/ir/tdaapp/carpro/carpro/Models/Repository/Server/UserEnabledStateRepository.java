@@ -1,12 +1,10 @@
-package ir.tdaapp.carpro.carpro.Models.Repository;
+package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
 import java.io.IOException;
 
 import io.reactivex.Single;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
-import ir.tdaapp.li_volley.Volleys.GetJsonObjectVolley;
 import ir.tdaapp.li_volley.Volleys.GetStringVolley;
-import ir.tdaapp.li_volley.Volleys.PostStringVolley;
 
 public class UserEnabledStateRepository extends BaseRepository {
 

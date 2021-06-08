@@ -10,7 +10,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Services.LoginFragmentService;
-import ir.tdaapp.carpro.carpro.Models.Repository.LoginRepository;
+import ir.tdaapp.carpro.carpro.Models.Repository.Server.LoginRepository;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 
 public class LoginFragmentPresenter {

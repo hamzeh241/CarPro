@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.Models.Repository;
+package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
 public class BaseRepository {
 

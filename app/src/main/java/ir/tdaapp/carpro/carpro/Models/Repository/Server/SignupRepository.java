@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.Models.Repository;
+package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,15 +12,16 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 import ir.tdaapp.li_volley.Volleys.PostJsonObjectVolley;
 
-public class AuthorizeRepository extends BaseRepository {
+public class SignupRepository extends BaseRepository {
 
   PostJsonObjectVolley volley;
 
-  public Single<ApiDefaultResponse> authorize(JSONObject authorizeObject) {
+  public Single<ApiDefaultResponse> signup(JSONObject signupObject) {
     return Single.create(emitter -> {
       new Thread(() -> {
 
-        volley = new PostJsonObjectVolley(API_URL + "api/UserCarPro/AuthorizeUserCarPro", authorizeObject, resault -> {
+        volley = new PostJsonObjectVolley(API_URL + "api/UserCarPro/RegisterUserCarPro", signupObject, resault -> {
+
           if (resault.getResault() == ResaultCode.Success) {
             JSONObject object = resault.getObject();
 

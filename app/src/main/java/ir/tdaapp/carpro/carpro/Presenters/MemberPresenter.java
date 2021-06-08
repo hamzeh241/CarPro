@@ -1,7 +1,6 @@
 package ir.tdaapp.carpro.carpro.Presenters;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +12,7 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import ir.tdaapp.carpro.carpro.Models.Repository.MemberRepository;
+import ir.tdaapp.carpro.carpro.Models.Repository.Server.MemberRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.MemberService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;

@@ -9,7 +9,7 @@ import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import ir.tdaapp.carpro.carpro.Models.Repository.AcceptedRepository;
+import ir.tdaapp.carpro.carpro.Models.Repository.Server.AcceptedRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.AcceptedCarsService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 

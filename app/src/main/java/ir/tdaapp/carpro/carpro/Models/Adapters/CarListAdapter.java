@@ -2,7 +2,6 @@ package ir.tdaapp.carpro.carpro.Models.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
@@ -11,9 +10,8 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ir.tdaapp.carpro.carpro.Models.Repository.BaseRepository;
+import ir.tdaapp.carpro.carpro.Models.Repository.Server.BaseRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.onCarListClickListener;
-import ir.tdaapp.carpro.carpro.Models.ViewModels.CarListModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.databinding.RecyclerCarListBinding;

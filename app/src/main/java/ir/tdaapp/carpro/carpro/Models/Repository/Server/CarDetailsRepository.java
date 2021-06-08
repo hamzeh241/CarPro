@@ -1,4 +1,4 @@
-package ir.tdaapp.carpro.carpro.Models.Repository;
+package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,15 +6,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Single;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailPhotoModel;
-import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
-import ir.tdaapp.li_volley.Volleys.GetJsonArrayVolley;
 import ir.tdaapp.li_volley.Volleys.GetJsonObjectVolley;
 import ir.tdaapp.li_volley.Volleys.PutJsonObjectVolley;
 
