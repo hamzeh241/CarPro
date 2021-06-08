@@ -65,6 +65,11 @@
   <string name="imageUploadingFailed">بارگذاری عکس با مشکل مواجه شد</string>
   <string name="accept">تایید</string>
   <string name="reject">رد کردن</string>
+  <string name="edit">ویرایش</string>
+  <string name="active">فعال</string>
+  <string name="deactive">غیرفعال</string>
+  <string name="status_changed">تغییر وضعیت انجام شد</string>
+  <string name="status_not_changed">تغییر وضعیت با خطا مواجه شد</string>
 
 
 </resources>

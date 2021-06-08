@@ -9,6 +9,10 @@ public interface CarDetailsService {
 
   void onItemReceived(CarDetailModel item);
 
+  void onConfirmCarSuccessful(String message);
+
+  void onRejectCarSuccessful(String message);
+
   void onError(String message);
 
   void onLoading(boolean state);

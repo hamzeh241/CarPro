@@ -6,7 +6,7 @@ public class CarDetailModel {
 
   int id, function, brandId, engineStatusId, chassisStatusId,
     carBodyStatusId, insuranceTimeId, gearBoxId, documentId, categoryId,
-    howToSellId, productionYearId;
+    howToSellId, productionYearId,colorId;
   double price;
   String title, phone, address, dateInsert,description;
   boolean exchange;
@@ -174,5 +174,13 @@ public class CarDetailModel {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public int getColorId() {
+    return colorId;
+  }
+
+  public void setColorId(int colorId) {
+    this.colorId = colorId;
   }
 }

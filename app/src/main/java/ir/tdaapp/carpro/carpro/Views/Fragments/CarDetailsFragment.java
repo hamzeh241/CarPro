@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import ir.tdaapp.carpro.carpro.databinding.FragmentCarDetailsBinding;
 
-public class CarDetailsFragment extends BaseFragment {
+public class CarDetailsFragment extends BaseFragment implements View.OnClickListener{
 
   FragmentCarDetailsBinding binding;
 
@@ -18,6 +18,18 @@ public class CarDetailsFragment extends BaseFragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     binding = FragmentCarDetailsBinding.inflate(inflater, container, false);
 
+    implement();
+
     return binding.getRoot();
+  }
+
+  private void implement(){
+
+  }
+
+
+  @Override
+  public void onClick(View v) {
+
   }
 }

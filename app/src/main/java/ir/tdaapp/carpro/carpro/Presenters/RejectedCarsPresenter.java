@@ -28,16 +28,16 @@ public class RejectedCarsPresenter {
 
   public void start(int userId, int page) {
     service.onPresenterStart();
-    getItems(userId, page);
+    getItems(page);
   }
 
-  public void getItemsByPage(int userId, int page) {
-    getItems(userId, page);
+  public void getItemsByPage(int page) {
+    getItems(page);
   }
 
-  private void getItems(int userId, int page) {
+  private void getItems(int page) {
     service.onLoading(true);
-    Single<List<CarModel>> data = repository.getItems(userId, page);
+    Single<List<CarModel>> data = repository.getItems(page);
 
     get = data.subscribeWith(new DisposableSingleObserver<List<CarModel>>() {
       @Override
