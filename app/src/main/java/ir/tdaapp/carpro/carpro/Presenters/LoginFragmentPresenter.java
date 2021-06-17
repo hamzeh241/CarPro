@@ -28,10 +28,9 @@ public class LoginFragmentPresenter {
 
   public void start(String phoneNumber) {
     service.onPresenterStart();
-    login(phoneNumber);
   }
 
-  private void login(String phoneNumber) {
+  public void login(String phoneNumber) {
     service.onLoading(true);
     JSONObject loginObject = new JSONObject();
     try {

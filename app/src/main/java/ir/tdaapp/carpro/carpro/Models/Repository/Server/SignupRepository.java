@@ -52,4 +52,47 @@ public class SignupRepository extends BaseRepository {
       }).start();
     });
   }
+
+  public Single<ApiDefaultResponse> login(JSONObject loginObject) {
+    return Single.create(emitter -> {
+      new Thread(() -> {
+
+        volley = new PostJsonObjectVolley(API_URL+"api/UserCarPro/Login", loginObject, resault -> {
+
+          if (resault.getResault() == ResaultCode.Success) {
+            JSONObject object = resault.getObject();
+
+            ApiDefaultResponse response = new ApiDefaultResponse();
+            try {
+
+              response.setCode(object.getInt("Code"));
+              response.setResult(object.getBoolean("Result"));
+              JSONArray messages = object.getJSONArray("Messages");
+              ArrayList<String> messageArray = new ArrayList<>();
+
+              for (int i = 0; i < messages.length(); i++) {
+                messageArray.add(messages.getString(i));
+              }
+
+              response.setMessages(messageArray);
+
+            } catch (JSONException e) {
+              e.printStackTrace();
+              emitter.onError(e);
+            }
+            emitter.onSuccess(response);
+          } else {
+            emitter.onError(new IOException(resault.getResault().toString()));
+          }
+
+        });
+
+      }).start();
+    });
+  }
+
 }
+
+
+
+

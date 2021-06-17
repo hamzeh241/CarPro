@@ -7,10 +7,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.Models.Services.LoginFragmentService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Presenters.LoginFragmentPresenter;
@@ -26,6 +28,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
   FragmentLogInBinding binding;
   LoginFragmentPresenter presenter;
 
+
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,8 +42,14 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
 
   private void implement() {
     presenter = new LoginFragmentPresenter(getContext(), this);
+
+
     binding.btnLogIn.setOnClickListener(this);
     binding.NewAccount.setOnClickListener(this);
+
+    presenter.start(binding.editTextNumb.getText().toString());
+
+
 
   }
 
@@ -50,13 +59,16 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
     switch (v.getId()){
 
       case R.id.btn_log_in:
-        AuthorizeDialog dialog = new AuthorizeDialog();
-        dialog.show(getActivity().getSupportFragmentManager(),AuthorizeDialog.TAG);
+        if (binding.editTextNumb.getText().toString().equals("")){
+          Toast.makeText(getContext(), R.string.txt_ener_number, Toast.LENGTH_SHORT).show();
+        }else {
+            presenter.login(binding.editTextNumb.getText().toString());
+        }
         break;
 
       case R.id.NewAccount:
 
-        ((MainActivity)getActivity()).onAddFragment(new SignupFragment(),0,0,true,SignupFragment.TAG);
+        ((MainActivity)getActivity()).onAddFragment(new SignupFragment(),R.anim.fadein,R.anim.fadeout,true,SignupFragment.TAG);
 
         break;
 
@@ -71,6 +83,13 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
 
   @Override
   public void onResponseReceived(ApiDefaultResponse response) {
+
+    if (response.isResult()){
+      AuthorizeDialog dialog = new AuthorizeDialog(binding.editTextNumb.getText().toString());
+      dialog.show(getActivity().getSupportFragmentManager(),AuthorizeDialog.TAG);
+      Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
+    }
+
 
   }
 

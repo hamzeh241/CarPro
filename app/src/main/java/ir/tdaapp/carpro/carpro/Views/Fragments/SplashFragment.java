@@ -15,33 +15,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
+import ir.tdaapp.carpro.carpro.Models.Repository.Server.UserEnabledStateRepository;
+import ir.tdaapp.carpro.carpro.Models.Services.SplashFragmentService;
+import ir.tdaapp.carpro.carpro.Presenters.SplashPresenter;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.databinding.FragmentSplashBinding;
 
-public class SplashFragment extends BaseFragment {
+public class SplashFragment extends BaseFragment implements SplashFragmentService {
 
 
     public static final String TAG = "SplashFragment";
 
-    LinearLayout showItem;
     CountDownTimer timer;
-    Button btn_Reload;
+    SplashPresenter presenter;
 
     FragmentSplashBinding binding;
+
+    int userId;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       binding = FragmentSplashBinding.inflate(inflater,container,false);
+        binding = FragmentSplashBinding.inflate(inflater, container, false);
 
+        implement();
         DateTime();
+
         return binding.getRoot();
     }
 
-    public void findView(View view){
-        showItem = view.findViewById(R.id.showItem);
-        btn_Reload = view.findViewById(R.id.btn_Reload);
+    private void implement() {
+        presenter = new SplashPresenter(getContext(), this);
+        presenter.start();
+        userId = ((MainActivity) getActivity()).getTbl_user().getUserId();
     }
 
 
@@ -52,7 +61,7 @@ public class SplashFragment extends BaseFragment {
             @Override
             public void run() {
                 Animation aniFade = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in_splash);
-                showItem.startAnimation(aniFade);
+                binding.showItem.startAnimation(aniFade);
             }
         }, 500);
 
@@ -62,10 +71,51 @@ public class SplashFragment extends BaseFragment {
 
             public void onFinish() {
 
-                ((MainActivity)getActivity()).onAddFragment(new HomeFragment(),0,0,false,HomeFragment.TAG);
+//                if (((MainActivity) getActivity()).getTbl_user().hasAccount()) {
+//                    presenter.getStatusUser(((MainActivity) getActivity()).getTbl_user().getUserId());
+//
+//                } else if (((MainActivity)getActivity()).getTbl_user().getUserId() != 0){
+////                    ((MainActivity) getActivity()).onAddFragment(new HomeFragment(), R.anim.fadein, R.anim.fadeout, false, HomeFragment.TAG);
+//
+//                }else {
+//                    ((MainActivity) getActivity()).onAddFragment(new LoginFragment(),  R.anim.fadein, R.anim.fadeout, false, LoginFragment.TAG);
+//
+//                }
 
+
+
+                if (userId != 0) {
+                    ((MainActivity) getActivity()).onAddFragment(new HomeFragment(), R.anim.fadein, 0, false, HomeFragment.TAG);
+                } else {
+                    ((MainActivity) getActivity()).onAddFragment(new LoginFragment(), R.anim.fadein, 0, false, LoginFragment.TAG);
+                }
             }
 
         }.start();
+    }
+
+    @Override
+    public void onPresenterStart() {
+
+    }
+
+    @Override
+    public void onResponseRecive(String status) {
+    }
+
+    @Override
+    public void onLoading(boolean load) {
+
+    }
+
+    @Override
+    public void onError(String message) {
+
+    }
+
+
+    @Override
+    public void onFinish() {
+
     }
 }

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fragment_bg">
+    android:background="@color/fragment_bg"
+    android:visibility="invisible"
+    >
+
+    <ProgressBar
+        android:id="@+id/loading_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_logo"
@@ -47,13 +58,14 @@
             android:layoutDirection="rtl"
             android:layout_weight="1"
             android:weightSum="4"
+            android:visibility="invisible"
+            android:gravity="center_vertical"
             >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:padding="8dp"
-                android:layout_gravity="center"
                 android:src="@drawable/ic_manager"
                 />
 
@@ -61,7 +73,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/member_managment"
-                android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:layout_weight="3"
@@ -81,6 +92,7 @@
             android:layout_marginBottom="18dp"
             android:background="@drawable/rectangle_shape"
             android:layoutDirection="rtl"
+            android:gravity="center_vertical"
             >
 
             <ImageView
@@ -113,6 +125,7 @@
             android:layout_marginBottom="18dp"
             android:background="@drawable/rectangle_shape"
             android:layoutDirection="rtl"
+            android:gravity="center_vertical"
             >
 
             <ImageView
@@ -139,12 +152,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
             android:background="@drawable/rectangle_shape"
             android:layoutDirection="rtl"
+            android:gravity="center_vertical"
             >
 
             <ImageView

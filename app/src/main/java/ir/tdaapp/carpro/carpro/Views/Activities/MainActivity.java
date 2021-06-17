@@ -12,10 +12,11 @@ import android.os.Bundle;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
+import ir.tdaapp.carpro.carpro.Views.Fragments.SplashFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-  private Tbl_User tbl_user;
+  private Tbl_User tbl_user = new Tbl_User(MainActivity.this);
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +24,19 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     implement();
-    onAddFragment(new HomeFragment(), 0, 0, false, HomeFragment.TAG);
+
+
+    onAddFragment(new SplashFragment(), 0, 0, false, SplashFragment.TAG);
   }
 
   private void implement() {
-    tbl_user = new Tbl_User();
+//    tbl_user = new Tbl_User(MainActivity.this);
   }
 
   public Tbl_User getTbl_user() {
     return tbl_user;
   }
+
 
 
   public void onAddFragment(Fragment fragment,

@@ -9,26 +9,38 @@ import static android.content.Context.MODE_PRIVATE;
 public class Tbl_User {
 
   public static final String SHARED_PREFERENCE_TAG = "CarProShared";
-  public static final String SHARED_PREFERENCE_USERID = "CarProShared";
+  public static final String SHARED_PREFERENCE_USER_ID = "CarProShared";
 
-  public void add(Context context, int userId) {
+  private Context context;
+
+  public Tbl_User(Context context) {
+    this.context = context;
+  }
+
+  public void add(int userId) {
     SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFERENCE_TAG, MODE_PRIVATE).edit();
-    editor.putInt(SHARED_PREFERENCE_USERID, userId);
+    editor.putInt(SHARED_PREFERENCE_USER_ID, userId);
     editor.apply();
   }
 
-  public boolean hasAccount(Context context) {
+  public void  removeUser(){
+    SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_PREFERENCE_TAG,MODE_PRIVATE).edit();
+    editor.remove(SHARED_PREFERENCE_USER_ID);
+    editor.apply();
+  }
 
-    if (getUserId(context) > 0)
+  public boolean hasAccount() {
+
+    if (getUserId() > 0)
       return true;
     return false;
 
   }
 
-  public int getUserId(Context context) {
+  public int getUserId() {
 
     SharedPreferences editor = context.getSharedPreferences(SHARED_PREFERENCE_TAG, MODE_PRIVATE);
-    int userId = editor.getInt(SHARED_PREFERENCE_USERID, 0);
+    int userId = editor.getInt(SHARED_PREFERENCE_USER_ID, 0);
     return userId;
 
   }
