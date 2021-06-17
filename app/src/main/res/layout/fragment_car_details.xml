@@ -65,53 +65,35 @@
       android:orientation="vertical" >
 
       <include
+        android:id="@+id/includeContentAddCar"
         layout="@layout/content_add_car_main_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
       <include
+        android:id="@+id/includeContentAddCarMoreInfo"
         layout="@layout/content_add_car_more_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
       <include
+        android:id="@+id/includeContentAddCarDescription"
         layout="@layout/content_add_car_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
       <include
+        android:id="@+id/includeContentAddCarContactInfo"
         layout="@layout/content_add_car_contact_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
       <include
+        android:id="@+id/includeContentAddCarPhotos"
         layout="@layout/content_add_car_photos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-      <androidx.cardview.widget.CardView
-        android:id="@+id/btnAddCarSendData"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="?selectableItemBackground"
-        app:cardBackgroundColor="@color/colorBlue">
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
-
-          <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:text="ثبت اطلاعات"
-            android:textColor="#FFF"
-            android:textStyle="bold">
-
-          </TextView>
-        </LinearLayout>
-      </androidx.cardview.widget.CardView>
     </LinearLayout>
   </ScrollView>
 
@@ -120,35 +102,52 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <Button
-      android:id="@+id/button2"
-      style="@style/Widget.AppCompat.Button.Borderless"
+    <RelativeLayout
+      android:id="@+id/btnAccept"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="?actionBarSize"
       android:layout_weight="1"
-      android:background="@color/colorBlue"
-      android:backgroundTint="@color/colorBlue"
-      android:text="@string/accept"
-      android:textColor="@color/white" />
+      android:background="@color/colorBlue" >
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/accept"
+        android:textColor="@color/white"/>
+    </RelativeLayout>
 
-    <Button
-      android:id="@+id/button3"
-      style="@style/Widget.AppCompat.Button.Borderless"
+    <RelativeLayout
+      android:id="@+id/btnReject"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="?actionBarSize"
       android:layout_weight="1"
-      android:background="@color/white"
-      android:text="@string/reject"
-      android:textColor="#1a1d24" />
+      android:background="@color/white" >
 
-    <Button
-      android:id="@+id/button4"
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/reject"
+        android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <RelativeLayout
+      android:id="@+id/btnEdit"
       android:layout_width="0dp"
-      android:layout_height="wrap_content"
+      android:layout_height="?actionBarSize"
       android:layout_weight="1"
-      android:background="@color/white"
-      android:text="@string/edit"
-      android:textColor="#1a1d24" />
+      android:background="@color/white">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/edit"
+        android:textColor="@color/black" />
+    </RelativeLayout>
   </LinearLayout>
 
 </LinearLayout>

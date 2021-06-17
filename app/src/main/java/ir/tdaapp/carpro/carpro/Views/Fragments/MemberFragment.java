@@ -58,9 +58,9 @@ public class MemberFragment extends BaseFragment implements MemberService {
 
   @Override
   public void onLoading(boolean state) {
-    binding.memberList.setVisibility(state ? View.GONE : View.VISIBLE);
     TransitionManager.beginDelayedTransition(binding.getRoot(), new Slide(Gravity.TOP));
     binding.progressBar.setVisibility(state ? View.VISIBLE : View.GONE);
+    binding.memberList.setVisibility(state ? View.GONE : View.VISIBLE);
   }
 
   @Override

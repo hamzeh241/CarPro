@@ -49,6 +49,7 @@ public class AcceptedCarsPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
+        service.onLoading(false);
         service.onError(e.getMessage());
       }
     });
@@ -62,6 +63,7 @@ public class AcceptedCarsPresenter {
     }, throwable -> {
       service.onError(throwable.getMessage());
     }, () -> {
+      service.onLoading(false);
       service.onFinish();
     });
   }

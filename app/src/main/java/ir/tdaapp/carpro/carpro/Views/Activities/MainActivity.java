@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import ir.tdaapp.carpro.carpro.Models.Adapters.DBAdapter;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
@@ -16,17 +17,21 @@ import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
 public class MainActivity extends AppCompatActivity {
 
   private Tbl_User tbl_user;
+  private DBAdapter dbAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    dbAdapter = new DBAdapter(this);
 
     implement();
+
     onAddFragment(new HomeFragment(), 0, 0, false, HomeFragment.TAG);
   }
 
   private void implement() {
+
     tbl_user = new Tbl_User();
   }
 
@@ -52,5 +57,9 @@ public class MainActivity extends AppCompatActivity {
       transaction.addToBackStack(null);
     }
     transaction.commit();
+  }
+
+  public DBAdapter getDbAdapter() {
+    return dbAdapter;
   }
 }

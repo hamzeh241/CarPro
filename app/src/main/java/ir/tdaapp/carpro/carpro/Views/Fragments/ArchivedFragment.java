@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import ir.tdaapp.carpro.carpro.Models.Adapters.CarListAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.RejectedCarsService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 import ir.tdaapp.carpro.carpro.Presenters.RejectedCarsPresenter;
@@ -18,9 +20,11 @@ import ir.tdaapp.carpro.carpro.databinding.FragmentArchivedCarsViewPagerBinding;
 
 public class ArchivedFragment extends Fragment implements RejectedCarsService {
 
-  RejectedCarsPresenter presenter;
 
   FragmentArchivedCarsViewPagerBinding binding;
+  RejectedCarsPresenter presenter;
+
+  CarListAdapter adapter;
 
   @Nullable
   @Override
@@ -34,16 +38,33 @@ public class ArchivedFragment extends Fragment implements RejectedCarsService {
 
   private void implement() {
     presenter = new RejectedCarsPresenter(getContext(), this);
+    adapter = new CarListAdapter(getContext());
+
+    adapter.setClickListener((model, position) -> {
+      CarDetailsFragment fragment = new CarDetailsFragment();
+      Bundle bundle = new Bundle();
+      bundle.putInt("ID", model.getId());
+      fragment.setArguments(bundle);
+
+      ((MainActivity) getActivity()).onAddFragment(fragment, R.anim.fadein, R.anim.fadeout, true, CarDetailsFragment.TAG);
+    });
+    startPresenter();
+  }
+
+  public void startPresenter() {
+    presenter.start(2086, 0);
+    adapter.clear();
   }
 
   @Override
   public void onPresenterStart() {
-
+    binding.archivedList.setLayoutManager(new LinearLayoutManager(getContext()));
+    binding.archivedList.setAdapter(adapter);
   }
 
   @Override
   public void onItemReceived(CarModel item) {
-
+    adapter.add(item);
   }
 
   @Override
@@ -53,7 +74,7 @@ public class ArchivedFragment extends Fragment implements RejectedCarsService {
 
   @Override
   public void onLoading(boolean state) {
-
+    binding.mkLoader.setVisibility(state ? View.VISIBLE : View.GONE);
   }
 
   @Override

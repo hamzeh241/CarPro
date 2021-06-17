@@ -1,24 +1,30 @@
 package ir.tdaapp.carpro.carpro.Models.Repository.Server;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Single;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
+import ir.tdaapp.carpro.carpro.Models.ViewModels.CarChipsListModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailPhotoModel;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
+import ir.tdaapp.li_volley.Volleys.GetJsonArrayVolley;
 import ir.tdaapp.li_volley.Volleys.GetJsonObjectVolley;
 import ir.tdaapp.li_volley.Volleys.PutJsonObjectVolley;
 
 public class CarDetailsRepository extends BaseRepository {
 
   GetJsonObjectVolley volley;
-  PutJsonObjectVolley confirmVolley, rejectVolley,editVolley;
+  GetJsonArrayVolley getCategoriesVolley;
+  PutJsonObjectVolley confirmVolley, rejectVolley, editVolley;
 
   public Single<CarDetailModel> getItems(int id) {
     return Single.create(emitter -> new Thread(() -> {
@@ -38,6 +44,7 @@ public class CarDetailsRepository extends BaseRepository {
 
               photoModels.add(photoModel);
             }
+            Log.i("TAG", "getItems: " + photoModels.size());
 
             model.setId(object.getInt("Id"));
             model.setFunction(object.getInt("Function"));
@@ -59,6 +66,7 @@ public class CarDetailsRepository extends BaseRepository {
             model.setColorId(object.getInt("ColorId"));
             model.setDateInsert(object.getString("DateInsert"));
             model.setDescription(object.getString("Description"));
+            model.setPhotos(photoModels);
 
 
           } catch (JSONException e) {
@@ -73,6 +81,42 @@ public class CarDetailsRepository extends BaseRepository {
       });
 
     }).start());
+  }
+
+  public Single<List<CarChipsListModel>> getCategories() {
+    return Single.create(emitter -> {
+      new Thread(() -> {
+        try {
+
+          getCategoriesVolley = new GetJsonArrayVolley(API_URL + "api/Car/GetCarCategories", resault -> {
+            if (resault.getResault() == ResaultCode.Success) {
+              List<CarChipsListModel> models = new ArrayList<>();
+              JSONArray array = resault.getJsonArray();
+
+              for (int i = 0; i < array.length(); i++) {
+                try {
+                  JSONObject object = array.getJSONObject(i);
+                  CarChipsListModel model = new CarChipsListModel();
+
+                  model.setId(object.getInt("Id"));
+                  model.setTitle(object.getString("Title").replace("\n", "").replace("\r", ""));
+
+                  models.add(model);
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              }
+              emitter.onSuccess(models);
+
+            } else {
+              emitter.onError(new IOException(resault.getResault().toString()));
+            }
+          });
+        } catch (Exception e) {
+          emitter.onError(e);
+        }
+      }).start();
+    });
   }
 
   public Single<ApiDefaultResponse> confirmCar(JSONObject object) {
@@ -141,28 +185,29 @@ public class CarDetailsRepository extends BaseRepository {
     return Single.create(emitter -> new Thread(() ->
       editVolley = new PutJsonObjectVolley(API_URL + "api/CarPro/EditCar", object, resault -> {
 
-      if (resault.getResault() == ResaultCode.Success) {
-        ApiDefaultResponse response = new ApiDefaultResponse();
-        try {
-          ArrayList<String> messageList = new ArrayList<>();
-          JSONArray messages = resault.getObject().getJSONArray("Messages");
+        if (resault.getResault() == ResaultCode.Success) {
+          ApiDefaultResponse response = new ApiDefaultResponse();
+            try {
+              ArrayList<String> messageList = new ArrayList<>();
+              JSONArray messages = resault.getObject().getJSONArray("Messages");
 
-          for (int i = 0; i < messages.length(); i++) {
-            messageList.add(messages.getString(i));
-          }
+              for (int i = 0; i < messages.length(); i++) {
+                messageList.add(messages.getString(i));
+              }
 
-          response.setMessages(messageList);
-          response.setCode(resault.getObject().getInt("Code"));
-          response.setResult(resault.getObject().getBoolean("Result"));
+              response.setMessages(messageList);
+              response.setCode(resault.getObject().getInt("Code"));
+              response.setResult(resault.getObject().getBoolean("Result"));
 
-          emitter.onSuccess(response);
-        } catch (JSONException e) {
-          e.printStackTrace();
+              emitter.onSuccess(response);
+            } catch (JSONException e) {
+              e.printStackTrace();
+              emitter.onError(e);
+            }
+        } else {
+          emitter.onError(new IOException(resault.getResault().toString()));
         }
-      } else {
-        emitter.onError(new IOException(resault.getResault().toString()));
-      }
 
-    })).start());
+      })).start());
   }
 }

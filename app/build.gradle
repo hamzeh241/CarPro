@@ -42,6 +42,21 @@ dependencies {
     implementation project(path: ':li_utility')
     implementation project(path: ':li_image')
 
+    //PhotoView (Zoom and Scroll)
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    //TedBottomPicker (Image Picker)
+    implementation 'gun0912.ted:tedbottompicker:2.0.1'
+
+    //Dexter (Permission Checker)
+    implementation 'com.karumi:dexter:5.0.0'
+
+    //Toasty (Custom Toast)
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+    //Compressor
+    implementation 'id.zelory:compressor:2.1.1'
+
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'

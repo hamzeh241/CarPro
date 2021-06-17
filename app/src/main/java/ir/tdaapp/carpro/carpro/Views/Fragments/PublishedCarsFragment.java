@@ -9,18 +9,79 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import ir.tdaapp.carpro.carpro.Models.Adapters.CarListAdapter;
+import ir.tdaapp.carpro.carpro.Models.Services.AcceptedCarsService;
+import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
+import ir.tdaapp.carpro.carpro.Presenters.AcceptedCarsPresenter;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
+import ir.tdaapp.carpro.carpro.databinding.FragmentPublishedCarsViewPagerBinding;
 
-public class PublishedCarsFragment extends Fragment {
+public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsService {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  FragmentPublishedCarsViewPagerBinding binding;
+  AcceptedCarsPresenter presenter;
 
-        View view = inflater.inflate(R.layout.fragment_published_cars_view_pager,container,false);
+  CarListAdapter adapter;
 
-        return view;
-    }
+
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    binding = FragmentPublishedCarsViewPagerBinding.inflate(inflater, container, false);
+
+    implement();
+
+    return binding.getRoot();
+  }
+
+  private void implement() {
+    presenter = new AcceptedCarsPresenter(getContext(), this);
+    adapter = new CarListAdapter(getContext());
+
+    adapter.setClickListener((model, position) -> {
+      CarDetailsFragment fragment = new CarDetailsFragment();
+      Bundle bundle = new Bundle();
+      bundle.putInt("ID", model.getId());
+      fragment.setArguments(bundle);
+
+      ((MainActivity) getActivity()).onAddFragment(fragment, R.anim.fadein, R.anim.fadeout, true, CarDetailsFragment.TAG);
+    });
+
+    startPresenter();
+  }
+
+  public void startPresenter() {
+    presenter.start(2086, 0);
+    adapter.clear();
+  }
+
+  @Override
+  public void onPresenterStart() {
+    binding.publishedCarsList.setLayoutManager(new LinearLayoutManager(getContext()));
+    binding.publishedCarsList.setAdapter(adapter);
+  }
+
+  @Override
+  public void onItemReceived(CarModel item) {
+    adapter.add(item);
+  }
+
+  @Override
+  public void onError(String message) {
+
+  }
+
+  @Override
+  public void onLoading(boolean state) {
+    binding.mkLoader.setVisibility(state ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
+  public void onFinish() {
+
+  }
 }
 
 

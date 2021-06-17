@@ -70,6 +70,7 @@
   <string name="deactive">غیرفعال</string>
   <string name="status_changed">تغییر وضعیت انجام شد</string>
   <string name="status_not_changed">تغییر وضعیت با خطا مواجه شد</string>
+  <string name="enable_permission">کاربر گرامی، برای اضافه کردن عکس باید مجوز های برنامه را تایید بکنید</string>
 
 
 </resources>

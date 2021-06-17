@@ -42,7 +42,7 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.ViewHold
     CarModel model = models.get(position);
     holder.binding.txtCarListName.setText(model.getTitle());
     holder.binding.txtCarListPrice.setText(model.getPrice());
-    holder.binding.txtCarListMileage.setText(model.getFunction());
+    holder.binding.txtCarListMileage.setText(""+model.getFunction());
     holder.binding.txtCarListColor.setText(model.getColor());
     holder.binding.txtCarListProductionYear.setText(new StringBuilder().append(model.getMiladiDate()).append(" - ").append(model.getShamsiDate()).toString());
     Glide.with(context)

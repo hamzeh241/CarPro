@@ -13,11 +13,11 @@ import ir.tdaapp.carpro.carpro.R;
 
 public class EditMembersFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-      View view = inflater.inflate(R.layout.fragment_edit_member,container,false);
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_edit_member, container, false);
 
-        return view;
-    }
+    return view;
+  }
 }
