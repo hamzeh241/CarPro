@@ -28,10 +28,9 @@ public class AuthorizeDialogPresenter {
 
   public void start(String phoneNumber, String password) {
     service.onPresenterStart();
-    authorize(phoneNumber, password);
   }
 
-  private void authorize(String phoneNumber, String password) {
+  public void authorize(String phoneNumber, String password) {
     service.onLoading(true);
     JSONObject object = new JSONObject();
     try {

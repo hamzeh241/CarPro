@@ -7,14 +7,37 @@ public class ApiDefaultResponse {
   int code;
   boolean result;
   ArrayList<String> messages;
+  String titel;
+  boolean reDirect;
 
-  public ApiDefaultResponse(int code, boolean result, ArrayList<String> messages) {
+
+
+  public ApiDefaultResponse(int code, boolean result, ArrayList<String> messages, String titel, boolean reDirect) {
     this.code = code;
     this.result = result;
     this.messages = messages;
+    this.titel = titel;
+    this.reDirect = reDirect;
   }
 
   public ApiDefaultResponse() {
+  }
+
+
+  public boolean isReDirect() {
+    return reDirect;
+  }
+
+  public void setReDirect(boolean reDirect) {
+    this.reDirect = reDirect;
+  }
+
+  public String getTitel() {
+    return titel;
+  }
+
+  public void setTitel(String titel) {
+    this.titel = titel;
   }
 
   public int getCode() {

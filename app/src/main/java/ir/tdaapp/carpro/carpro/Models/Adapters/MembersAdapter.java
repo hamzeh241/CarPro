@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.tdaapp.carpro.carpro.Models.Services.onUserModelClickListener;
+import ir.tdaapp.carpro.carpro.Models.ViewModels.AddItemPhotoModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
 import ir.tdaapp.carpro.carpro.R;
@@ -19,6 +20,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
   Context context;
   ArrayList<UserModel> models;
+  ArrayList<AddItemPhotoModel> photoModels;
   RecyclerUserCarproBinding binding;
 
   onUserModelClickListener clickListener;
@@ -26,6 +28,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
   public MembersAdapter(Context context) {
     this.context = context;
     models = new ArrayList<>();
+    photoModels = new ArrayList<>();
   }
 
   @NonNull
@@ -51,6 +54,10 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 
   public void add(UserModel model) {
     models.add(model);
+    notifyItemInserted(models.size());
+  }
+  public void add(AddItemPhotoModel model) {
+    photoModels.add(model);
     notifyItemInserted(models.size());
   }
 
