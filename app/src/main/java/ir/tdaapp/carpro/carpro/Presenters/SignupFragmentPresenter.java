@@ -56,7 +56,6 @@ public class SignupFragmentPresenter {
 
     public void start() {
         service.onPresenterStart();
-
     }
 
 

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.AuthorizeRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.AuthorizeDialogService;
@@ -26,77 +27,78 @@ import ir.tdaapp.carpro.carpro.databinding.DialogAuthorizeBinding;
 
 public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogService, View.OnClickListener {
 
-    public static final String TAG = "AuthorizeDialog";
-    AuthorizeDialogPresenter presenter;
-    DialogAuthorizeBinding binding;
+  public static final String TAG = "AuthorizeDialog";
+  AuthorizeDialogPresenter presenter;
+  DialogAuthorizeBinding binding;
 
-    String number;
-    String password;
+  String number;
+  String password;
 
-    public AuthorizeDialog(String number) {
-        this.number = number;
+  public AuthorizeDialog(String number) {
+    this.number = number;
+  }
+
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    binding = DialogAuthorizeBinding.inflate(inflater, container, false);
+
+    implement();
+    return binding.getRoot();
+  }
+
+  private void implement() {
+    presenter = new AuthorizeDialogPresenter(getContext(), this);
+    password = binding.etRecivedCode.getText().toString();
+    presenter.start(number, password);
+    binding.btnConfiguration.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+
+    switch (v.getId()) {
+      case R.id.btn_configuration:
+        presenter.authorize(number, binding.etRecivedCode.getText().toString());
+        break;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = DialogAuthorizeBinding.inflate(inflater, container, false);
+  }
 
+  @Override
+  public void onLoading(boolean state) {
 
-        implement();
-        return binding.getRoot();
+  }
+
+  @Override
+  public void onError(String message) {
+
+  }
+
+  @Override
+  public void onDataReceived(ApiDefaultResponse response) {
+
+    String message = "";
+    for (int i = 0; i < response.getMessages().size(); i++)
+      message = new StringBuilder().append(response
+        .getMessages()
+        .get(i))
+        .append(response.getMessages().size() > 1 ? "\n" : "")
+        .toString();
+
+    if (response.isResult()) {
+      Toasty.success(getContext(), message).show();
+      ((MainActivity) getActivity()).getTbl_user().add(response.getCode());
+      ((MainActivity) getActivity()).onAddFragment(new HomeFragment(), 0, 0, false, HomeFragment.TAG);
+      this.dismiss();
+    } else {
+      Toasty.error(getContext(), message).show();
     }
+  }
 
-    private void implement() {
-        presenter = new AuthorizeDialogPresenter(getContext(), this);
-        password = binding.etRecivedCode.getText().toString();
-        presenter.start(number,password);
-        binding.btnConfiguration.setOnClickListener(this);
+  @Override
+  public void onPresenterStart() {
 
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.btn_configuration:
-                presenter.authorize(number,binding.etRecivedCode.getText().toString());
-                break;
-        }
-
-
-    }
-
-    @Override
-    public void onLoading(boolean state) {
-
-    }
-
-    @Override
-    public void onError(String message) {
-
-    }
-
-    @Override
-    public void onDataReceived(ApiDefaultResponse response) {
-
-        if (response.isResult()){
-            ((MainActivity)getActivity()).getTbl_user().add(response.getCode());
-            ((MainActivity)getActivity()).onAddFragment(new HomeFragment(),0,0,false,HomeFragment.TAG);
-            this.dismiss();
-        }
-
-        if (binding.etRecivedCode.getText().toString().equals(response.getCode())){
-            Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onPresenterStart() {
-
-    }
+  }
 }

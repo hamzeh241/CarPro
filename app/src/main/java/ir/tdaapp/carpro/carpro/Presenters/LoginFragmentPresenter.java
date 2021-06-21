@@ -26,7 +26,7 @@ public class LoginFragmentPresenter {
     repository = new LoginRepository();
   }
 
-  public void start(String phoneNumber) {
+  public void start() {
     service.onPresenterStart();
   }
 

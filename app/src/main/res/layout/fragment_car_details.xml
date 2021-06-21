@@ -98,6 +98,7 @@
   </ScrollView>
 
   <LinearLayout
+    android:id="@+id/buttonsRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -109,6 +110,7 @@
       android:layout_weight="1"
       android:background="@color/colorBlue" >
       <TextView
+        android:id="@+id/txtAccept"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -125,6 +127,7 @@
       android:background="@color/white" >
 
       <TextView
+        android:id="@+id/txtReject"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -141,6 +144,7 @@
       android:background="@color/white">
 
       <TextView
+        android:id="@+id/txtEdit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

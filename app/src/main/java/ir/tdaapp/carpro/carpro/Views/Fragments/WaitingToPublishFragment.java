@@ -20,6 +20,8 @@ import ir.tdaapp.carpro.carpro.databinding.FragmentWaitingToAcceptCarsPagerBindi
 
 public class WaitingToPublishFragment extends BaseFragment implements WaitingToAcceptService {
 
+  public static final String TAG = "WaitingToPublishFragmen";
+
   FragmentWaitingToAcceptCarsPagerBinding binding;
   WaitingToAcceptPresenter presenter;
 
@@ -43,6 +45,7 @@ public class WaitingToPublishFragment extends BaseFragment implements WaitingToA
       CarDetailsFragment fragment = new CarDetailsFragment();
       Bundle bundle = new Bundle();
       bundle.putInt("ID", model.getId());
+      bundle.putString("STATE", WaitingToPublishFragment.TAG);
       fragment.setArguments(bundle);
 
       ((MainActivity) getActivity()).onAddFragment(fragment, R.anim.fadein, R.anim.fadeout, true, CarDetailsFragment.TAG);
@@ -52,7 +55,7 @@ public class WaitingToPublishFragment extends BaseFragment implements WaitingToA
   }
 
   public void startPresenter() {
-    presenter.start(2086, 0);
+    presenter.start(((MainActivity)getActivity()).getTbl_user().getUserId(), 0);
     adapter.clear();
   }
 

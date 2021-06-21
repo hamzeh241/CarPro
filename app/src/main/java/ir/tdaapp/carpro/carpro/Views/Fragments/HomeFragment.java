@@ -45,7 +45,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     presenter = new HomeFragmentPresenter(getContext(),this);
 
     userId = ((MainActivity)getActivity()).getTbl_user().getUserId();
-    Log.i(TAG, "implement: "+ userId);
     presenter.start();
 
 

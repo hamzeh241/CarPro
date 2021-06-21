@@ -54,6 +54,10 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
 
   int modelId;
 
+  String fromFragment = "";
+  int id;
+
+
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +73,19 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
     presenter = new CarDetailsPresenter(getContext(), this);
     handler = new Handler();
 
-    presenter.start(getArguments().getInt("ID"));
+    fromFragment = getArguments().getString("STATE");
+    switch (fromFragment) {
+      case PublishedCarsFragment.TAG:
+        binding.btnAccept.setVisibility(View.GONE);
+        binding.txtReject.setText("آرشیو");
+        break;
+      case ArchivedFragment.TAG:
+        binding.buttonsRoot.setVisibility(View.GONE);
+        break;
+    }
+    id = getArguments().getInt("ID");
+
+    presenter.start(id);
   }
 
   private void setListeners() {
@@ -97,11 +113,11 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
         break;
       case R.id.btnReject:
         if (checkValidation())
-          presenter.rejectCar(2086, item.getId());
+          presenter.rejectCar(((MainActivity) getActivity()).getTbl_user().getUserId(), item.getId());
         break;
       case R.id.btnAccept:
         if (checkValidation())
-          presenter.confirmCar(2086, item.getId());
+          presenter.confirmCar(((MainActivity) getActivity()).getTbl_user().getUserId(), item.getId());
         break;
       case R.id.btnEdit:
         if (checkValidation()) {
@@ -179,7 +195,7 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
   }
 
   private void setRecyclerView() {
-    LinearLayoutManager manager=new LinearLayoutManager(getContext());
+    LinearLayoutManager manager = new LinearLayoutManager(getContext());
     manager.setOrientation(RecyclerView.HORIZONTAL);
     binding.includeContentAddCarPhotos.addCarPhotoList.setLayoutManager(manager);
     binding.includeContentAddCarPhotos.addCarPhotoList.setAdapter(adapter);

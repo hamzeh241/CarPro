@@ -82,14 +82,22 @@ public class MemberPresenter {
     changeStatus = data.subscribeWith(new DisposableSingleObserver<ApiDefaultResponse>() {
       @Override
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
+        String message = "";
+        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++)
+          message = new StringBuilder("").append(apiDefaultResponse
+            .getMessages()
+            .get(i))
+            .append(apiDefaultResponse.getMessages().size() > 1 ? "\n" : "")
+            .toString();
+
         if (apiDefaultResponse.isResult())
-          service.onStatusChangeSuccessful(true);
-        else service.onStatusChangeSuccessful(false);
+          service.onStatusChangeSuccessful(message, true);
+        else service.onStatusChangeSuccessful(message, false);
       }
 
       @Override
       public void onError(@NonNull Throwable e) {
-        service.onStatusChangeSuccessful(false);
+        service.onStatusChangeSuccessful("تغییر وضعیت با خطا مواجه شد", false);
       }
     });
   }

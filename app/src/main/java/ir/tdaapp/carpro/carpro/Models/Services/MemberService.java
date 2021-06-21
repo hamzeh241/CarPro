@@ -12,7 +12,7 @@ public interface MemberService {
 
   void onDataReceived(UserModel model);
 
-  void onStatusChangeSuccessful(boolean state);
+  void onStatusChangeSuccessful(String message,boolean state);
 
   void onPresenterStart();
 }

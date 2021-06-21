@@ -1,17 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:background="@color/white"
+  android:clickable="true"
     android:layout_height="match_parent"
   >
 
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar3"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:layout_alignParentTop="true"
+    android:background="@color/colorBlue"
+    android:elevation="8dp"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <ImageButton
+        android:id="@+id/imgBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="ویرایش اعضا"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        />
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
 
+      <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="جزئیات اعضا"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.appcompat.widget.Toolbar>
+
+  <LinearLayout
+    android:id="@+id/topBar"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:elevation="4dp"
+    android:background="@color/colorPaleBlack"
+    android:layout_below="@id/toolbar3"
+    android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="0.3"
+      android:gravity="center"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/txtState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:text="State"
+        android:textColor="@color/white" />
+
+      <TextView
+        android:id="@+id/txtLastSeen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="LastSeen"
+        android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="0.5"
+      android:gravity="center"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/txtFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:gravity="right"
+        android:text="FullName"
+        android:textColor="@color/black" />
+
+      <TextView
+        android:id="@+id/txtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:gravity="right"
+        android:text="Phone"
+        android:textColor="@color/black" />
+
+      <TextView
+        android:id="@+id/txtDateInsert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:gravity="right"
+        android:text="DateInsert"
+        android:textColor="@color/black" />
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="0.2" />
+  </LinearLayout>
+
+<!--    <ImageView-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="1dp"-->
+<!--      android:background="@color/black"/>-->
+
+  </LinearLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/brandList"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:layout_above="@id/bottomBar"
+    android:layout_below="@id/topBar"
+    android:layoutDirection="rtl" />
+
+  <com.tuyenmonkey.mkloader.MKLoader
+    android:id="@+id/mkLoader"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="false"
+    android:layout_marginTop="16dp"
+    app:mk_color="@color/black"
+    app:mk_type="FourPulse" />
+
+  <LinearLayout
+    android:id="@+id/bottomBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal">
+
+    <com.google.android.material.card.MaterialCardView
+      android:id="@+id/btnSave"
+      android:layout_width="0dp"
+      android:layout_height="50dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginLeft="8dp"
+      android:layout_marginRight="4dp"
+      android:layout_marginTop="8dp"
+      app:cardBackgroundColor="@color/colorBlue"
+      android:layout_weight="1">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="?selectableItemBackground"
+        android:text="ذخیره"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+      android:id="@+id/btnAdd"
+      android:layout_width="0dp"
+      android:layout_height="50dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginLeft="4dp"
+      android:layout_marginRight="8dp"
+      android:layout_marginTop="8dp"
+      android:layout_weight="1">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:background="?selectableItemBackground"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="افزودن"
+        android:textColor="@color/black" />
+
+    </com.google.android.material.card.MaterialCardView>
+  </LinearLayout>
 </RelativeLayout>

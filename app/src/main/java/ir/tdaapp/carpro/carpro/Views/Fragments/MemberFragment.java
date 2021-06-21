@@ -19,11 +19,14 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
+import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.MembersAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.MemberService;
+import ir.tdaapp.carpro.carpro.Models.Services.onUserModelClickListener;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
 import ir.tdaapp.carpro.carpro.Presenters.MemberPresenter;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.databinding.FragmentMembersManagmentBinding;
 
 public class MemberFragment extends BaseFragment implements MemberService {
@@ -53,7 +56,24 @@ public class MemberFragment extends BaseFragment implements MemberService {
 
     presenter.start();
 
-    adapter.setClickListener(model -> presenter.changeUserProStatus(1, 2091, !model.isEnabled()));
+    adapter.setClickListener(new onUserModelClickListener() {
+      @Override
+      public void onChangeState(UserModel model) {
+        presenter.changeUserProStatus(((MainActivity) getActivity()).getTbl_user()
+          .getUserId(), model.getId(), !model.isEnabled());
+      }
+
+      @Override
+      public void onClick(UserModel model) {
+        EditMembersFragment fragment = new EditMembersFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID", model.getId());
+        fragment.setArguments(bundle);
+
+        ((MainActivity) getActivity()).onAddFragment(fragment, R.anim.fadein,
+          R.anim.fadeout, true, EditMembersFragment.TAG);
+      }
+    });
   }
 
   @Override
@@ -78,12 +98,12 @@ public class MemberFragment extends BaseFragment implements MemberService {
   }
 
   @Override
-  public void onStatusChangeSuccessful(boolean state) {
+  public void onStatusChangeSuccessful(String message, boolean state) {
     if (state) {
-      Toast.makeText(getContext(), getContext().getResources().getString(R.string.status_changed), Toast.LENGTH_LONG).show();
+      Toasty.success(getContext(), message, Toast.LENGTH_LONG).show();
       presenter.start();
     } else
-      Toast.makeText(getContext(), getContext().getResources().getString(R.string.status_not_changed), Toast.LENGTH_LONG).show();
+      Toasty.error(getContext(), message, Toast.LENGTH_LONG).show();
   }
 
   @Override

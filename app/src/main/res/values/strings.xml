@@ -75,6 +75,7 @@
     <string name="exit_app">خروج از برنامه</string>
     <string name="exit_account">خروج از حساب</string>
     <string name="no_photo_selected">لطفا یک عکس انتخاب کنید</string>
+    <string name="enable_permission">برای کار کردن اپلیکیشن باید مجوز ها فراخوانی شوند</string>
 
 
 </resources>

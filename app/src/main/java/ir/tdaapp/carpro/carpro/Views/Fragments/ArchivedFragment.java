@@ -20,6 +20,7 @@ import ir.tdaapp.carpro.carpro.databinding.FragmentArchivedCarsViewPagerBinding;
 
 public class ArchivedFragment extends Fragment implements RejectedCarsService {
 
+  public static final String TAG = "ArchivedFragment";
 
   FragmentArchivedCarsViewPagerBinding binding;
   RejectedCarsPresenter presenter;
@@ -44,6 +45,7 @@ public class ArchivedFragment extends Fragment implements RejectedCarsService {
       CarDetailsFragment fragment = new CarDetailsFragment();
       Bundle bundle = new Bundle();
       bundle.putInt("ID", model.getId());
+      bundle.putString("STATE", ArchivedFragment.TAG);
       fragment.setArguments(bundle);
 
       ((MainActivity) getActivity()).onAddFragment(fragment, R.anim.fadein, R.anim.fadeout, true, CarDetailsFragment.TAG);
@@ -52,7 +54,7 @@ public class ArchivedFragment extends Fragment implements RejectedCarsService {
   }
 
   public void startPresenter() {
-    presenter.start(2086, 0);
+    presenter.start(((MainActivity) getActivity()).getTbl_user().getUserId(), 0);
     adapter.clear();
   }
 

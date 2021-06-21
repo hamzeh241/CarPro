@@ -104,7 +104,7 @@ public class CarDetailsPresenter {
         new Thread(() -> {
           service.onImageUploading(true);
 
-          FileManger fileManger = new FileManger(BaseRepository.API_IMAGE_UPLOAD);
+          FileManger fileManger = new FileManger(BaseRepository.API_IMAGE_CAR);
           CompressImage compressImage = new CompressImage(320, 450, 75, activity);
           for (Uri uri : uriList) {
             String imagePath = uri.getPath();
@@ -198,9 +198,12 @@ public class CarDetailsPresenter {
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
         service.onLoading(false);
         String message = "";
-        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++) {
-          message = new StringBuilder().append(apiDefaultResponse.getMessages().get(i)).append("\n").toString();
-        }
+        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++)
+          message = new StringBuilder("").append(apiDefaultResponse
+            .getMessages()
+            .get(i))
+            .append(apiDefaultResponse.getMessages().size() > 1 ? "\n" : "")
+            .toString();
         service.onConfirmCarSuccessful(apiDefaultResponse.isResult(), message);
       }
 
@@ -229,9 +232,12 @@ public class CarDetailsPresenter {
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
         service.onLoading(false);
         String message = "";
-        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++) {
-          message = new StringBuilder().append(apiDefaultResponse.getMessages().get(i)).append("\n").toString();
-        }
+        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++)
+          message = new StringBuilder("").append(apiDefaultResponse
+            .getMessages()
+            .get(i))
+            .append(apiDefaultResponse.getMessages().size() > 1 ? "\n" : "")
+            .toString();
         service.onRejectCarSuccessful(apiDefaultResponse.isResult(), message);
       }
 
@@ -286,9 +292,12 @@ public class CarDetailsPresenter {
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
         service.onLoading(false);
         String message = "";
-        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++) {
-          message = new StringBuilder().append(apiDefaultResponse.getMessages().get(i)).append("\n").toString();
-        }
+        for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++)
+          message = new StringBuilder("").append(apiDefaultResponse
+            .getMessages()
+            .get(i))
+            .append(apiDefaultResponse.getMessages().size() > 1 ? "\n" : "")
+            .toString();
         service.onEditCarSuccessful(apiDefaultResponse.isResult(), message);
       }
 

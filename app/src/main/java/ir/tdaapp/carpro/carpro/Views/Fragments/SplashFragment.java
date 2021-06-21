@@ -70,21 +70,7 @@ public class SplashFragment extends BaseFragment implements SplashFragmentServic
             }
 
             public void onFinish() {
-
-//                if (((MainActivity) getActivity()).getTbl_user().hasAccount()) {
-//                    presenter.getStatusUser(((MainActivity) getActivity()).getTbl_user().getUserId());
-//
-//                } else if (((MainActivity)getActivity()).getTbl_user().getUserId() != 0){
-////                    ((MainActivity) getActivity()).onAddFragment(new HomeFragment(), R.anim.fadein, R.anim.fadeout, false, HomeFragment.TAG);
-//
-//                }else {
-//                    ((MainActivity) getActivity()).onAddFragment(new LoginFragment(),  R.anim.fadein, R.anim.fadeout, false, LoginFragment.TAG);
-//
-//                }
-
-
-
-                if (userId != 0) {
+                if (((MainActivity) getActivity()).getTbl_user().hasAccount()) {
                     ((MainActivity) getActivity()).onAddFragment(new HomeFragment(), R.anim.fadein, 0, false, HomeFragment.TAG);
                 } else {
                     ((MainActivity) getActivity()).onAddFragment(new LoginFragment(), R.anim.fadein, 0, false, LoginFragment.TAG);

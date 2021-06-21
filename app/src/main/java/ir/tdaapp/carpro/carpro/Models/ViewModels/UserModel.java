@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UserModel {
 
   int id;
-  String name,cellPhone,email,imageUrl;
+  String name, cellPhone, email, imageUrl, dateInsert, lastOnline;
   boolean enabled;
 
   ArrayList<String> images;
@@ -69,5 +69,21 @@ public class UserModel {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  public String getDateInsert() {
+    return dateInsert;
+  }
+
+  public void setDateInsert(String dateInsert) {
+    this.dateInsert = dateInsert;
+  }
+
+  public String getLastOnline() {
+    return lastOnline;
+  }
+
+  public void setLastOnline(String lastOnline) {
+    this.lastOnline = lastOnline;
   }
 }

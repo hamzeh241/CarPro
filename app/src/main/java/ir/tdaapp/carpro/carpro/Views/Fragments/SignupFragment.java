@@ -33,172 +33,179 @@ import ir.tdaapp.li_utility.Codes.Validation;
 
 public class SignupFragment extends BaseFragment implements View.OnClickListener, SignUpService {
 
-    public static final String TAG = "SignupFragment";
+  public static final String TAG = "SignupFragment";
 
-    FragmentSignupBinding binding;
-    SignupFragmentPresenter presenter;
-    UserModel userModel;
-    MembersAdapter adapter;
-    MessageDialog uploading;
-    MessageDialog sending;
-    String imageUrl;
-    boolean isEmptyUrl;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentSignupBinding.inflate(inflater, container, false);
-        implement();
-        return binding.getRoot();
-    }
-
-    private void implement() {
-
-        presenter = new SignupFragmentPresenter(getContext(), this);
-        presenter.start();
-        binding.btnSignup.setOnClickListener(this);
-        binding.imgBackSignup.setOnClickListener(this);
-        binding.addPhotoLayout.setOnClickListener(this);
-        binding.imgAddPhoto.setOnClickListener(this);
-        adapter = new MembersAdapter(getContext());
-        uploading = new MessageDialog("در حال آپلود عکس...", false);
-        sending = new MessageDialog("در حال ثبت عکس...", false);
-        userModel = new UserModel();
+  FragmentSignupBinding binding;
+  SignupFragmentPresenter presenter;
+  UserModel userModel;
+  MembersAdapter adapter;
+  MessageDialog uploading;
+  MessageDialog sending;
+  String imageUrl;
+  boolean isEmptyUrl;
 
 
-    }
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    binding = FragmentSignupBinding.inflate(inflater, container, false);
+    implement();
+    return binding.getRoot();
+  }
+
+  private void implement() {
+
+    presenter = new SignupFragmentPresenter(getContext(), this);
+    presenter.start();
+    binding.btnSignup.setOnClickListener(this);
+    binding.imgBackSignup.setOnClickListener(this);
+    binding.addPhotoLayout.setOnClickListener(this);
+    binding.imgAddPhoto.setOnClickListener(this);
+    adapter = new MembersAdapter(getContext());
+    uploading = new MessageDialog("در حال آپلود عکس...", false);
+    sending = new MessageDialog("در حال ثبت عکس...", false);
+    userModel = new UserModel();
 
 
-    @Override
-    public void onClick(View v) {
+  }
 
-        switch (v.getId()) {
 
-            case R.id.btn_signup:
-                if (checkValidation()) {
-                    userModel.setName(binding.edtName.getText().toString());
-                    userModel.setCellPhone(binding.edtPhone.getText().toString());
-                    userModel.setEmail(binding.edtEmail.getText().toString());
-                    userModel.setImageUrl(imageUrl);
-                    presenter.signup(userModel);
-                    presenter.login(userModel.getCellPhone());
-                    onLoading(true);
-                }
-                break;
-            case R.id.add_photo_layout:
-                presenter.requestStrogePermistion(getActivity());
-                break;
-            case R.id.img_add_photo:
-                presenter.requestStrogePermistion(getActivity());
-                break;
-            case R.id.img_back_signup:
-                getActivity().onBackPressed();
-                break;
+  @Override
+  public void onClick(View v) {
+
+    switch (v.getId()) {
+
+      case R.id.btn_signup:
+        if (checkValidation()) {
+          userModel.setName(binding.edtName.getText().toString());
+          userModel.setCellPhone(binding.edtPhone.getText().toString());
+          userModel.setEmail(binding.edtEmail.getText().toString());
+          userModel.setImageUrl(imageUrl);
+          presenter.signup(userModel);
+//                    presenter.login(userModel.getCellPhone());
         }
-
+        break;
+      case R.id.add_photo_layout:
+        presenter.requestStrogePermistion(getActivity());
+        break;
+      case R.id.img_add_photo:
+        presenter.requestStrogePermistion(getActivity());
+        break;
+      case R.id.img_back_signup:
+        getActivity().onBackPressed();
+        break;
     }
 
-    public void authorize() {
-        AuthorizeDialog authorizeDialog = new AuthorizeDialog(userModel.getCellPhone());
-        authorizeDialog.show(getActivity().getSupportFragmentManager(), AuthorizeDialog.TAG);
+  }
+
+  public void authorize() {
+    AuthorizeDialog authorizeDialog = new AuthorizeDialog(userModel.getCellPhone());
+    authorizeDialog.show(getActivity().getSupportFragmentManager(), AuthorizeDialog.TAG);
+  }
+
+  private boolean checkValidation() {
+
+    boolean a = Validation.Required(binding.edtName, "نام خود را وارد کنید");
+    boolean b = Validation.Required(binding.edtPhone, "شماره موبایل نباید خالی باشد");
+    boolean c = checkImageUploaded();
+    return a && b && c;
+  }
+
+  @Override
+  public void onPresenterStart() {
+
+  }
+
+  @Override
+  public void onError(String result) {
+
+  }
+
+  @Override
+  public void onResponseReceived(ApiDefaultResponse response) {
+    String message = "";
+    for (int i = 0; i < response.getMessages().size(); i++)
+      message = new StringBuilder().append(response
+        .getMessages()
+        .get(i))
+        .append(response.getMessages().size() > 1 ? "\n" : "")
+        .toString();
+
+    if (response.isResult()) {
+      Toasty.success(getContext(), message).show();
+      authorize();
+    } else Toasty.error(getContext(), message).show();
+  }
+
+  @Override
+  public void onResponseReciveCode(ApiDefaultResponse response) {
+    if (response.isResult()) {
+      Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
     }
 
-    private boolean checkValidation() {
+  }
 
-        boolean a = Validation.Required(binding.edtName, "نام خود را وارد کنید");
-        boolean b = Validation.Required(binding.edtPhone, "شماره موبایل نباید خالی باشد");
-        boolean c = checkImageUploaded();
-        return a && b && c;
+
+  @Override
+  public void onStoragePermissionGranted() {
+    presenter.openImageSelector(getActivity());
+  }
+
+  @Override
+  public void onStoragePermissionDenied() {
+    Toast.makeText(getContext(), R.string.storage_permisison_needed, Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public void onImagesUploaded(String filename, Uri uri) {
+    Glide.with(getContext())
+      .load(uri)
+      .into(binding.imgUserPhoto);
+    String FileName = filename.replace("\"", "");
+    imageUrl = FileName;
+    userModel.setImageUrl(FileName);
+
+  }
+
+  @Override
+  public void onImageUploading(boolean loading) {
+    if (loading) {
+      uploading.show(getActivity().getSupportFragmentManager(), MessageDialog.TAG);
+    } else {
+      uploading.dismiss();
     }
 
-    @Override
-    public void onPresenterStart() {
+  }
 
+
+  public boolean checkImageUploaded() {
+
+    isEmptyUrl = (imageUrl == null || imageUrl.length() == 0);
+    if (!isEmptyUrl) {
+      return true;
+    } else {
+      Toasty.error(getContext(), R.string.no_photo_selected, Toasty.LENGTH_SHORT, false).show();
+      return false;
     }
 
-    @Override
-    public void onError(String result) {
+  }
 
+  @Override
+  public void onDataSendingState(boolean loading) {
+    if (loading) {
+      sending.show(getActivity().getSupportFragmentManager(), MessageDialog.TAG);
+    } else {
+      sending.dismiss();
     }
+  }
 
-    @Override
-    public void onResponseReceived(ApiDefaultResponse response) {
+  @Override
+  public void onLoading(boolean state) {
 
-    }
+  }
 
-    @Override
-    public void onResponseReciveCode(ApiDefaultResponse response) {
-        if (response.isResult()) {
-            onLoading(false);
-            Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
-        }
+  @Override
+  public void onFinish() {
 
-    }
-
-
-    @Override
-    public void onStoragePermissionGranted() {
-        presenter.openImageSelector(getActivity());
-    }
-
-    @Override
-    public void onStoragePermissionDenied() {
-        Toast.makeText(getContext(), R.string.storage_permisison_needed, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onImagesUploaded(String filename, Uri uri) {
-        Glide.with(getContext())
-                .load(uri)
-                .into(binding.imgUserPhoto);
-        String FileName = filename.replace("\"", "");
-        imageUrl = FileName;
-        userModel.setImageUrl(FileName);
-
-    }
-
-    @Override
-    public void onImageUploading(boolean loading) {
-        if (loading) {
-            uploading.show(getActivity().getSupportFragmentManager(), MessageDialog.TAG);
-        } else {
-            uploading.dismiss();
-        }
-
-    }
-
-
-    public boolean checkImageUploaded() {
-
-        isEmptyUrl = (imageUrl == null || imageUrl.length() == 0);
-        if (!isEmptyUrl) {
-            return true;
-        } else {
-            Toasty.error(getContext(), R.string.no_photo_selected, Toasty.LENGTH_SHORT, false).show();
-            return false;
-        }
-
-    }
-
-    @Override
-    public void onDataSendingState(boolean loading) {
-
-        if (loading) {
-            sending.show(getActivity().getSupportFragmentManager(), MessageDialog.TAG);
-        } else {
-            sending.dismiss();
-            authorize();
-        }
-    }
-
-    @Override
-    public void onLoading(boolean state) {
-
-    }
-
-    @Override
-    public void onFinish() {
-
-    }
+  }
 }

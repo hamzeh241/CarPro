@@ -1,5 +1,7 @@
 package ir.tdaapp.carpro.carpro.Models.ViewModels;
 
+import java.util.Objects;
+
 public class CarDetailsEntryModel {
 
   int id;
@@ -42,6 +44,22 @@ public class CarDetailsEntryModel {
     } else {
       return title;
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    CarDetailsEntryModel model = (CarDetailsEntryModel) o;
+    return id == model.id &&
+      title.equals(model.title) &&
+      Objects.equals(titleShamsi, model.titleShamsi) &&
+      Objects.equals(titleMiladi, model.titleMiladi);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, title, titleShamsi, titleMiladi);
   }
 
   public String getTitleShamsi() {

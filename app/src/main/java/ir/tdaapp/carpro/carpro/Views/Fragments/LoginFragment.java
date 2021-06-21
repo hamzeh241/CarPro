@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.Models.Services.LoginFragmentService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
@@ -47,7 +48,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
     binding.btnLogIn.setOnClickListener(this);
     binding.NewAccount.setOnClickListener(this);
 
-    presenter.start(binding.editTextNumb.getText().toString());
+    presenter.start();
 
 
 
@@ -84,11 +85,19 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
   @Override
   public void onResponseReceived(ApiDefaultResponse response) {
 
+    String message = "";
+    for (int i = 0; i < response.getMessages().size(); i++)
+      message = new StringBuilder().append(response
+        .getMessages()
+        .get(i))
+        .append(response.getMessages().size() > 1 ? "\n" : "")
+        .toString();
+
     if (response.isResult()){
       AuthorizeDialog dialog = new AuthorizeDialog(binding.editTextNumb.getText().toString());
       dialog.show(getActivity().getSupportFragmentManager(),AuthorizeDialog.TAG);
-      Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
-    }
+      Toasty.success(getContext(),message).show();
+    }else Toasty.error(getContext(),message).show();
 
 
   }

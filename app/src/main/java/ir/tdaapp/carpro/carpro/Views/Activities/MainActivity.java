@@ -13,6 +13,7 @@ import ir.tdaapp.carpro.carpro.Models.Adapters.DBAdapter;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
+import ir.tdaapp.carpro.carpro.Views.Fragments.SplashFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
     implement();
 
-    onAddFragment(new HomeFragment(), 0, 0, false, HomeFragment.TAG);
+    onAddFragment(new SplashFragment(), 0, 0, false, HomeFragment.TAG);
   }
 
   private void implement() {
 
-    tbl_user = new Tbl_User();
+    tbl_user = new Tbl_User(MainActivity.this);
   }
 
   public Tbl_User getTbl_user() {
