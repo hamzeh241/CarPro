@@ -34,6 +34,7 @@ import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_CarDetails;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.BaseRepository;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.CarDetailsRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.CarDetailsService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.Utilities.FileManger;
 import ir.tdaapp.carpro.carpro.Models.Utilities.GetRandom;
 import ir.tdaapp.carpro.carpro.Models.Utilities.SaveImageToMob;
@@ -155,7 +156,7 @@ public class CarDetailsPresenter {
 
       @Override
       public void onError(Throwable e) {
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -176,7 +177,7 @@ public class CarDetailsPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
-
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -210,7 +211,7 @@ public class CarDetailsPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -244,7 +245,7 @@ public class CarDetailsPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -304,7 +305,7 @@ public class CarDetailsPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
         Log.i("TAG", "onError: ");
       }
     });

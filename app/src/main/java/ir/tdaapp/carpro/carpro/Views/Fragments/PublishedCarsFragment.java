@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import ir.tdaapp.carpro.carpro.Models.Adapters.CarListAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.AcceptedCarsService;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
@@ -22,11 +23,17 @@ public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsS
 
   public static final String TAG = "PublishedCarsFragment";
 
+  private int previousTotal = 0;
+  private int page = 0;
+  private boolean isLoading = true;
+  private final int visibleThreshold = 5;
+  int firstVisibleItem, visibleItemCount, totalItemCount;
+
   FragmentPublishedCarsViewPagerBinding binding;
   AcceptedCarsPresenter presenter;
 
   CarListAdapter adapter;
-
+  LinearLayoutManager manager;
 
   @Nullable
   @Override
@@ -41,6 +48,7 @@ public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsS
   private void implement() {
     presenter = new AcceptedCarsPresenter(getContext(), this);
     adapter = new CarListAdapter(getContext());
+    manager = new LinearLayoutManager(getContext());
 
     adapter.setClickListener((model, position) -> {
       CarDetailsFragment fragment = new CarDetailsFragment();
@@ -56,14 +64,46 @@ public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsS
   }
 
   public void startPresenter() {
-    presenter.start(((MainActivity)getActivity()).getTbl_user().getUserId(), 0);
+    presenter.start(((MainActivity) getActivity()).getTbl_user().getUserId(), 0);
     adapter.clear();
+  }
+
+  private void setPagination() {
+    binding.publishedCarsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+
+        visibleItemCount = binding.publishedCarsList.getChildCount();
+        totalItemCount = manager.getItemCount();
+        firstVisibleItem = manager.findFirstVisibleItemPosition();
+
+        if (isLoading) {
+          if (totalItemCount > previousTotal) {
+            isLoading = false;
+            previousTotal = totalItemCount;
+          }
+        }
+        if (adapter.getItemCount() > 40) {
+          if (!isLoading && (totalItemCount - visibleItemCount)
+            <= (firstVisibleItem + visibleThreshold)) {
+            // End has been reached
+            page++;
+            presenter.getItemsByPage(((MainActivity) getActivity()).getTbl_user().getUserId(), page);
+
+            // Do something
+            isLoading = true;
+          }
+        }
+      }
+    });
   }
 
   @Override
   public void onPresenterStart() {
-    binding.publishedCarsList.setLayoutManager(new LinearLayoutManager(getContext()));
+    binding.publishedCarsList.setLayoutManager(manager);
     binding.publishedCarsList.setAdapter(adapter);
+    setPagination();
   }
 
   @Override

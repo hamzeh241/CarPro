@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.RejectedRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.RejectedCarsService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 
 public class RejectedCarsPresenter {
@@ -26,7 +27,7 @@ public class RejectedCarsPresenter {
     repository = new RejectedRepository();
   }
 
-  public void start(int userId, int page) {
+  public void start(int page) {
     service.onPresenterStart();
     getItems(page);
   }
@@ -48,7 +49,7 @@ public class RejectedCarsPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -59,7 +60,6 @@ public class RejectedCarsPresenter {
     set = observable.subscribe(carModel -> {
       service.onItemReceived(carModel);
     }, throwable -> {
-      service.onError(throwable.getMessage());
     }, () -> {
       service.onFinish();
     });

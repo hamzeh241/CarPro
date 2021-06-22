@@ -1,12 +1,16 @@
 package ir.tdaapp.carpro.carpro.Views.Fragments;
 
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.google.android.material.card.MaterialCardView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +26,9 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Presenters.HomeFragmentPresenter;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Dialogs.ErrorDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentHomeBinding;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener, HomeFragmentService {
   public static final String TAG = "HomeFragment";
@@ -35,6 +41,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     binding = FragmentHomeBinding.inflate(inflater, container, false);
+
     implement();
 
     return binding.getRoot();
@@ -42,17 +49,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
 
   public void implement() {
-    presenter = new HomeFragmentPresenter(getContext(),this);
+    presenter = new HomeFragmentPresenter(getContext(), this);
 
-    userId = ((MainActivity)getActivity()).getTbl_user().getUserId();
-    presenter.start();
-
+    userId = ((MainActivity) getActivity()).getTbl_user().getUserId();
+    presenter.start(userId);
 
     binding.membersLayout.setOnClickListener(this);
     binding.waitingLayout.setOnClickListener(this);
     binding.acceptedCarsLayout.setOnClickListener(this);
     binding.archivedLayout.setOnClickListener(this);
-
   }
 
   @Override
@@ -84,17 +89,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
   @Override
   public void onPresenterStart() {
-      presenter.getUserStatus(userId);
   }
 
   @Override
-  public void onResponseRecive(ApiDefaultResponse status) {
+  public void onResponseReceived(ApiDefaultResponse status) {
     if (!status.isResult()) {
-      binding.loadingHome.setVisibility(View.VISIBLE);
       ((MainActivity) getActivity()).onAddFragment(new UserConfigurationMessageFragment(), 0, 0, false, UserConfigurationMessageFragment.TAG);
-    }else{
+    } else {
       presenter.checkIsAdmin(userId);
-      binding.loadingHome.setVisibility(View.GONE);
       binding.homeFragmentLayout.setVisibility(View.VISIBLE);
     }
 
@@ -102,25 +104,52 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
   }
 
   @Override
-  public void onResponseReciveAdmin(ApiDefaultResponse status) {
-
-    if (status.isResult()){
+  public void onResponseReceivedAdmin(ApiDefaultResponse status) {
+    if (status.isResult()) {
+      TransitionManager.beginDelayedTransition(binding.getRoot(), new Fade());
       binding.membersLayout.setVisibility(View.VISIBLE);
-    }else {
+    } else {
+      TransitionManager.beginDelayedTransition(binding.getRoot(), new Fade());
       binding.membersLayout.setVisibility(View.INVISIBLE);
     }
-
-
   }
 
   @Override
   public void onLoading(boolean load) {
-
+    binding.loadingHome.setVisibility(load ? View.VISIBLE : View.GONE);
+    binding.archivedLayout.setVisibility(load ? View.GONE : View.VISIBLE);
+    binding.acceptedCarsLayout.setVisibility(load ? View.GONE : View.VISIBLE);
+    binding.waitingLayout.setVisibility(load ? View.GONE : View.VISIBLE);
   }
 
   @Override
-  public void onError(String message) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    showErrorDialog(title, error, () -> {
+      presenter.start(((MainActivity) getActivity()).getTbl_user().getUserId());
+    });
   }
 
   @Override
@@ -129,7 +158,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     FragmentManager manager = getActivity().getSupportFragmentManager();
     List<Fragment> fragmentList = manager.getFragments();
 
-    if (fragmentList instanceof SignupFragment){
+    if (fragmentList instanceof SignupFragment) {
 
       manager.popBackStack();
     }

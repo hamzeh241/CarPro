@@ -1,6 +1,7 @@
 package ir.tdaapp.carpro.carpro.Views.Dialogs;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.AuthorizeRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.AuthorizeDialogService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Presenters.AuthorizeDialogPresenter;
 import ir.tdaapp.carpro.carpro.R;
@@ -24,6 +26,7 @@ import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.LoginFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.UserConfigurationMessageFragment;
 import ir.tdaapp.carpro.carpro.databinding.DialogAuthorizeBinding;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogService, View.OnClickListener {
 
@@ -52,18 +55,26 @@ public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogSe
     password = binding.etRecivedCode.getText().toString();
     presenter.start(number, password);
     binding.btnConfiguration.setOnClickListener(this);
+
+    binding.etRecivedCode.setOnKeyListener((v, keyCode, event) -> {
+      // If the event is a key-down event on the "enter" button
+      if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        // Perform action on key press
+        binding.btnConfiguration.performClick();
+        return true;
+      }
+      return false;
+    });
   }
 
   @Override
   public void onClick(View v) {
-
     switch (v.getId()) {
       case R.id.btn_configuration:
         presenter.authorize(number, binding.etRecivedCode.getText().toString());
         break;
     }
-
-
   }
 
   @Override
@@ -72,8 +83,35 @@ public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogSe
   }
 
   @Override
-  public void onError(String message) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    ErrorDialog dialog = new ErrorDialog(title, error, () -> {
+      Toasty.error(getContext(), "Returned").show();
+    });
+
+    dialog.show(getActivity().getSupportFragmentManager(), ErrorDialog.TAG);
   }
 
   @Override

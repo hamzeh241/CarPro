@@ -17,6 +17,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_CarDetails;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.MemberDetailsRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.MemberDetailsService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailsEntryModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
@@ -42,7 +43,7 @@ public class MemberDetailsPresenter {
   }
 
   public void editBrands(int userId, ArrayList<CarDetailsEntryModel> brands) {
-    service.onLoading(true);
+    service.onDataSendingLoading(true);
     JSONObject object = new JSONObject();
     JSONArray array = new JSONArray();
     try {
@@ -53,7 +54,7 @@ public class MemberDetailsPresenter {
 
       object.put("Brands", array);
     } catch (JSONException e) {
-      service.onLoading(false);
+      service.onDataSendingLoading(false);
       e.printStackTrace();
     }
 
@@ -61,7 +62,7 @@ public class MemberDetailsPresenter {
     editBrands = data.subscribeWith(new DisposableSingleObserver<ApiDefaultResponse>() {
       @Override
       public void onSuccess(@NonNull ApiDefaultResponse apiDefaultResponse) {
-        service.onLoading(false);
+        service.onDataSendingLoading(false);
         String message = "";
         for (int i = 0; i < apiDefaultResponse.getMessages().size(); i++)
           message = new StringBuilder("").append(apiDefaultResponse
@@ -74,8 +75,8 @@ public class MemberDetailsPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
-        service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onDataSendingLoading(false);
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -95,7 +96,7 @@ public class MemberDetailsPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -117,7 +118,7 @@ public class MemberDetailsPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }

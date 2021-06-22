@@ -33,6 +33,9 @@ public class DashboardFragment extends BaseFragment {
 
     implement();
     binding.tabLayout.selectTab(binding.tabLayout.getTabAt(index));
+    binding.imgBack.setOnClickListener(v -> {
+      getActivity().onBackPressed();
+    });
 
     return binding.getRoot();
   }

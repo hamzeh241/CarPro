@@ -14,6 +14,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.MemberRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.MemberService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
 
@@ -51,7 +52,7 @@ public class MemberPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -97,7 +98,7 @@ public class MemberPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
-        service.onStatusChangeSuccessful("تغییر وضعیت با خطا مواجه شد", false);
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }

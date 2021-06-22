@@ -4,13 +4,13 @@ plugins {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "ir.tdaapp.carpro.carpro"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -49,7 +49,7 @@ dependencies {
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
 
     //Dexter (Permission Checker)
-    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.karumi:dexter:6.2.2'
 
     //Toasty (Custom Toast)
     implementation 'com.github.GrenderG:Toasty:1.5.0'

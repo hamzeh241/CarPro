@@ -1,5 +1,7 @@
 package ir.tdaapp.carpro.carpro.Views.Fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.transition.Slide;
 import android.transition.TransitionManager;
@@ -20,7 +22,9 @@ import ir.tdaapp.carpro.carpro.Presenters.LoginFragmentPresenter;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.AuthorizeDialog;
+import ir.tdaapp.carpro.carpro.Views.Dialogs.ErrorDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentLogInBinding;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class LoginFragment extends BaseFragment implements LoginFragmentService, View.OnClickListener {
 
@@ -37,44 +41,32 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
 
     implement();
 
-
     return binding.getRoot();
   }
 
   private void implement() {
     presenter = new LoginFragmentPresenter(getContext(), this);
 
-
     binding.btnLogIn.setOnClickListener(this);
     binding.NewAccount.setOnClickListener(this);
 
     presenter.start();
-
-
-
   }
 
   @Override
   public void onClick(View v) {
-
-    switch (v.getId()){
-
+    switch (v.getId()) {
       case R.id.btn_log_in:
-        if (binding.editTextNumb.getText().toString().equals("")){
+        if (binding.editTextNumb.getText().toString().equalsIgnoreCase("")) {
           Toast.makeText(getContext(), R.string.txt_ener_number, Toast.LENGTH_SHORT).show();
-        }else {
-            presenter.login(binding.editTextNumb.getText().toString());
+        } else {
+          presenter.login(binding.editTextNumb.getText().toString());
         }
         break;
-
       case R.id.NewAccount:
-
-        ((MainActivity)getActivity()).onAddFragment(new SignupFragment(),R.anim.fadein,R.anim.fadeout,true,SignupFragment.TAG);
-
+        ((MainActivity) getActivity()).onAddFragment(new SignupFragment(), R.anim.fadein, R.anim.fadeout, true, SignupFragment.TAG);
         break;
-
     }
-
   }
 
   @Override
@@ -93,23 +85,48 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
         .append(response.getMessages().size() > 1 ? "\n" : "")
         .toString();
 
-    if (response.isResult()){
+    if (response.isResult()) {
       AuthorizeDialog dialog = new AuthorizeDialog(binding.editTextNumb.getText().toString());
-      dialog.show(getActivity().getSupportFragmentManager(),AuthorizeDialog.TAG);
-      Toasty.success(getContext(),message).show();
-    }else Toasty.error(getContext(),message).show();
+      dialog.show(getActivity().getSupportFragmentManager(), AuthorizeDialog.TAG);
+      Toasty.success(getContext(), message).show();
+    } else Toasty.error(getContext(), message).show();
 
 
   }
 
   @Override
-  public void onError(String message) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    showErrorDialog(title, error, () -> {
+      Toasty.error(getContext(), "Returned").show();
+    });
   }
 
   @Override
   public void onLoading(boolean state) {
-//    TransitionManager.beginDelayedTransition(binding.getRoot(), new Slide(Gravity.TOP));
-//    binding.mkLoader.setVisibility(state ? View.VISIBLE : View.GONE);
+    TransitionManager.beginDelayedTransition(binding.getRoot(), new Slide(Gravity.TOP));
+    binding.mkLoader.setVisibility(state ? View.VISIBLE : View.GONE);
   }
 }

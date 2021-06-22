@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.WaitingToAcceptRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.WaitingToAcceptService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
 
 public class WaitingToAcceptPresenter {
@@ -48,7 +49,7 @@ public class WaitingToAcceptPresenter {
 
       @Override
       public void onError(@NonNull Throwable e) {
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }
@@ -59,7 +60,6 @@ public class WaitingToAcceptPresenter {
     set = observable.subscribe(carModel -> {
       service.onItemReceived(carModel);
     }, throwable -> {
-      service.onError(throwable.getMessage());
     }, () -> {
       service.onFinish();
     });

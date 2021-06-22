@@ -10,6 +10,7 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.CarChipsListModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailsEntryModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarModel;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public interface CarDetailsService {
 
@@ -23,7 +24,7 @@ public interface CarDetailsService {
 
   void onEditCarSuccessful(boolean result, String message);
 
-  void onError(String message);
+  void onError(ResaultCode code);
 
   void onLoading(boolean state);
 

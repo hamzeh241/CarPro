@@ -38,6 +38,7 @@ import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.ImageViewerDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentCarDetailsBinding;
 import ir.tdaapp.li_utility.Codes.Validation;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class CarDetailsFragment extends BaseFragment implements CarDetailsService, View.OnClickListener {
 
@@ -93,6 +94,7 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
     binding.btnAccept.setOnClickListener(this);
     binding.btnEdit.setOnClickListener(this);
     binding.btnReject.setOnClickListener(this);
+    binding.imgBack.setOnClickListener(this);
   }
 
   private void selectedItemById(Spinner spinner, int brandId) {
@@ -110,6 +112,9 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
     switch (v.getId()) {
       case R.id.btnAddCarInsertPhoto:
         presenter.requestStoragePermission(getActivity());
+        break;
+      case R.id.imgBack:
+        getActivity().onBackPressed();
         break;
       case R.id.btnReject:
         if (checkValidation())
@@ -224,8 +229,32 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
   }
 
   @Override
-  public void onError(String message) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    showErrorDialog(title, error, () ->
+      presenter.start(((MainActivity) getActivity()).getTbl_user().getUserId()));
   }
 
   @Override

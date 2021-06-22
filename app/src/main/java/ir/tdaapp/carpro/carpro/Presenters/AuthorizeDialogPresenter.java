@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.AuthorizeRepository;
 import ir.tdaapp.carpro.carpro.Models.Services.AuthorizeDialogService;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 
 public class AuthorizeDialogPresenter {
@@ -38,7 +39,7 @@ public class AuthorizeDialogPresenter {
       object.put("Password", password);
     } catch (JSONException e) {
       service.onLoading(false);
-      service.onError(e.getMessage());
+      service.onError(Error.getErrorVolley(e.toString()));
       e.printStackTrace();
     }
 
@@ -53,7 +54,7 @@ public class AuthorizeDialogPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }

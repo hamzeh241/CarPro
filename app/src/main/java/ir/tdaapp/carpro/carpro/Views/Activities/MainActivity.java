@@ -2,18 +2,26 @@ package ir.tdaapp.carpro.carpro.Views.Activities;
 
 import androidx.annotation.AnimRes;
 import androidx.annotation.AnimatorRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.DBAdapter;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.SplashFragment;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 public class MainActivity extends AppCompatActivity {
 

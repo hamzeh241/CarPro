@@ -1,187 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_fragment_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/fragment_bg"
-    android:visibility="invisible"
-    >
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/home_fragment_layout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/fragment_bg"
+  android:visibility="visible">
 
-    <ProgressBar
-        android:id="@+id/loading_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="visible"
-        />
+    <com.google.android.material.card.MaterialCardView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="16dp"
+      android:layout_marginTop="16dp"
+      android:clickable="true"
+      android:focusable="true"
+      app:cardBackgroundColor="@color/colorBlue">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/logo_master" />
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="?selectableItemBackgroundBorderless"
+          android:padding="8dp">
 
-    <TextView
-        android:id="@+id/txt_title_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img_logo"
-        android:textColor="@color/white"
-        android:text="سامانه مدیریت بخش خودرو"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:layout_marginTop="12dp"
-        />
+            <ImageView
+              android:id="@+id/imageView2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:tint="@color/white"
+              app:srcCompat="@drawable/ic_baseline_logout_24" />
+
+            <TextView
+              android:id="@+id/textView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="8dp"
+              android:layout_weight="1"
+              android:text="خروج از حساب"
+              android:textColor="@color/white" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_title_home"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:weightSum="4"
-        >
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/txt_title_home"
+      android:layout_marginTop="20dp"
+      android:orientation="vertical"
+      android:weightSum="4">
 
         <LinearLayout
-            android:id="@+id/members_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/rectangle_shape"
-            android:layoutDirection="rtl"
-            android:layout_weight="1"
-            android:weightSum="4"
-            android:visibility="invisible"
-            android:gravity="center_vertical"
-            >
+          android:id="@+id/members_layout"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:layout_marginTop="16dp"
+          android:layout_weight="1"
+          android:background="@drawable/rectangle_shape"
+          android:gravity="center_vertical"
+          android:layoutDirection="rtl"
+          android:orientation="horizontal"
+          android:visibility="invisible"
+          android:weightSum="4">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_manager"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="48dp"
+              android:padding="8dp"
+              android:src="@drawable/ic_manager" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/member_managment"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:layout_weight="3"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="3"
+              android:text="@string/member_managment"
+              android:textColor="@color/white"
+              android:textSize="18dp" />
 
 
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/accepted_cars_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/rectangle_shape"
-            android:layoutDirection="rtl"
-            android:gravity="center_vertical"
-            >
+          android:id="@+id/accepted_cars_layout"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:layout_marginTop="16dp"
+          android:layout_weight="1"
+          android:background="@drawable/rectangle_shape"
+          android:gravity="center_vertical"
+          android:layoutDirection="rtl"
+          android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_accepted_cars"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="48dp"
+              android:padding="8dp"
+              android:src="@drawable/ic_accepted_cars" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/accepted_cars"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="@string/accepted_cars"
+              android:textColor="@color/white"
+              android:textSize="18dp" />
 
 
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/waiting_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/rectangle_shape"
-            android:layoutDirection="rtl"
-            android:gravity="center_vertical"
-            >
+          android:id="@+id/waiting_layout"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:layout_marginTop="16dp"
+          android:layout_weight="1"
+          android:background="@drawable/rectangle_shape"
+          android:gravity="center_vertical"
+          android:layoutDirection="rtl"
+          android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_waiting_accept"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="48dp"
+              android:padding="8dp"
+              android:src="@drawable/ic_waiting_accept" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/waiting_for_accept"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="@string/waiting_for_accept"
+              android:textColor="@color/white"
+              android:textSize="18dp" />
 
 
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/archived_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/rectangle_shape"
-            android:layoutDirection="rtl"
-            android:gravity="center_vertical"
-            >
+          android:id="@+id/archived_layout"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginTop="16dp"
+          android:layout_weight="1"
+          android:background="@drawable/rectangle_shape"
+          android:gravity="center_vertical"
+          android:layoutDirection="rtl"
+          android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_archive"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="48dp"
+              android:padding="8dp"
+              android:src="@drawable/ic_archive" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/archived_cars"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="@string/archived_cars"
+              android:textColor="@color/white"
+              android:textSize="18dp" />
 
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <ProgressBar
+      android:id="@+id/loading_home"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/txt_title_home"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="16dp"
+      android:visibility="visible" />
+
+    <TextView
+      android:id="@+id/txt_title_home"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/img_logo"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="12dp"
+      android:text="سامانه مدیریت بخش خودرو"
+      android:textColor="@color/white"
+      android:textSize="18sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/img_logo"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="50dp"
+      android:src="@drawable/logo_master" />
 
 
 </RelativeLayout>

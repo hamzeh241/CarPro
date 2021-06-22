@@ -1,35 +1,35 @@
 package ir.tdaapp.carpro.carpro.Views.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.MembersAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.SignUpService;
-import ir.tdaapp.carpro.carpro.Models.ViewModels.AddItemPhotoModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
 import ir.tdaapp.carpro.carpro.Presenters.SignupFragmentPresenter;
 import ir.tdaapp.carpro.carpro.R;
-import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.AuthorizeDialog;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.MessageDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentSignupBinding;
 import ir.tdaapp.li_utility.Codes.Validation;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 public class SignupFragment extends BaseFragment implements View.OnClickListener, SignUpService {
 
@@ -82,20 +82,18 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
           userModel.setEmail(binding.edtEmail.getText().toString());
           userModel.setImageUrl(imageUrl);
           presenter.signup(userModel);
-//                    presenter.login(userModel.getCellPhone());
         }
         break;
       case R.id.add_photo_layout:
-        presenter.requestStrogePermistion(getActivity());
+        presenter.requestStoragePermission(getActivity());
         break;
       case R.id.img_add_photo:
-        presenter.requestStrogePermistion(getActivity());
+        presenter.requestStoragePermission(getActivity());
         break;
       case R.id.img_back_signup:
         getActivity().onBackPressed();
         break;
     }
-
   }
 
   public void authorize() {
@@ -117,8 +115,32 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
   }
 
   @Override
-  public void onError(String result) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    showErrorDialog(title, error, () ->
+      presenter.signup(userModel));
   }
 
   @Override
@@ -136,15 +158,6 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
       authorize();
     } else Toasty.error(getContext(), message).show();
   }
-
-  @Override
-  public void onResponseReciveCode(ApiDefaultResponse response) {
-    if (response.isResult()) {
-      Toast.makeText(getContext(), response.getMessages().toString(), Toast.LENGTH_SHORT).show();
-    }
-
-  }
-
 
   @Override
   public void onStoragePermissionGranted() {

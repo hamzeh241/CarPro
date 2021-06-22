@@ -11,7 +11,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import ir.tdaapp.carpro.carpro.Models.Services.LoginFragmentService;
 import ir.tdaapp.carpro.carpro.Models.Repository.Server.LoginRepository;
+import ir.tdaapp.carpro.carpro.Models.Utilities.Error;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class LoginFragmentPresenter {
 
@@ -37,7 +39,7 @@ public class LoginFragmentPresenter {
       loginObject.put("PhoneNumber", phoneNumber);
     } catch (JSONException e) {
       service.onLoading(false);
-      service.onError(e.getMessage());
+      service.onError(ResaultCode.Error);
       e.printStackTrace();
     }
 
@@ -53,7 +55,7 @@ public class LoginFragmentPresenter {
       @Override
       public void onError(@NonNull Throwable e) {
         service.onLoading(false);
-        service.onError(e.getMessage());
+        service.onError(Error.getErrorVolley(e.toString()));
       }
     });
   }

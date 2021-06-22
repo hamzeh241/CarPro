@@ -7,9 +7,7 @@
     android:clickable="true"
     android:orientation="vertical">
 
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
+  <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_logo"
         android:layout_width="140dp"
         android:layout_height="140dp"
@@ -19,7 +17,19 @@
         android:src="@drawable/logo_master" />
 
 
-    <LinearLayout
+  <com.tuyenmonkey.mkloader.MKLoader
+    android:id="@+id/mkLoader"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="24dp"
+    android:background="@drawable/circle_background"
+    app:mk_color="@color/black"
+    app:mk_type="FourPulse"
+    android:visibility="gone"/>
+
+  <LinearLayout
         android:id="@+id/number_layout"
         android:layout_below="@id/img_logo"
         android:layout_width="match_parent"
