@@ -2,6 +2,8 @@ package ir.tdaapp.carpro.carpro.Models.ViewModels;
 
 import java.util.Objects;
 
+import ir.tdaapp.li_utility.Codes.Replace;
+
 public class CarDetailsEntryModel {
 
   int id;
@@ -30,19 +32,19 @@ public class CarDetailsEntryModel {
   }
 
   public String getTitle() {
-    return title;
+    return Replace.Number_en_To_fa(title);
   }
 
   public void setTitle(String title) {
-    this.title = title;
+    this.title = Replace.Number_fn_To_en(title);
   }
 
   @Override
   public String toString() {
     if (title == null) {
-      return titleShamsi + " - " + titleMiladi;
+      return Replace.Number_en_To_fa(titleShamsi) + " - " + Replace.Number_en_To_fa(titleMiladi);
     } else {
-      return title;
+      return Replace.Number_en_To_fa(title);
     }
   }
 
@@ -63,18 +65,18 @@ public class CarDetailsEntryModel {
   }
 
   public String getTitleShamsi() {
-    return titleShamsi;
+    return Replace.Number_en_To_fa(titleShamsi);
   }
 
   public void setTitleShamsi(String titleShamsi) {
-    this.titleShamsi = titleShamsi;
+    this.titleShamsi = Replace.Number_fn_To_en(titleShamsi);
   }
 
   public String getTitleMiladi() {
-    return titleMiladi;
+    return Replace.Number_en_To_fa(titleMiladi);
   }
 
   public void setTitleMiladi(String titleMiladi) {
-    this.titleMiladi = titleMiladi;
+    this.titleMiladi = Replace.Number_fn_To_en(titleMiladi);
   }
 }

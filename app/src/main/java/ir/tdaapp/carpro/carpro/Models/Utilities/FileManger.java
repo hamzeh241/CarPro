@@ -14,138 +14,162 @@ import java.net.URL;
 
 public class FileManger {
 
-    /* new Thread(new Runnable() {
-        @Override
-        public void run() {
-           _FileManger=new FileManger("http://shar.tdaapp.ir/api/User/TestPostFile");
-           _FileManger.uploadFile(selectedFilePath);
-       }
-    }).start();*/
+  public class FileResponse {
+    private int code;
+    private String response;
 
-    private String SERVER_URL ;
-    public FileManger(String SERVER_URL){
-        this.SERVER_URL=SERVER_URL;
-
+    public int getCode() {
+      return code;
     }
 
-    public String uploadFile(String selectedFilePath) {
-        String result = "Error";
-        int serverResponseCode = 0;
+    public void setCode(int code) {
+      this.code = code;
+    }
 
-        HttpURLConnection connection;
-        DataOutputStream dataOutputStream;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
+    public String getResponse() {
+      return response;
+    }
 
+    public void setResponse(String response) {
+      this.response = response;
+    }
+  }
 
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File selectedFile = new File(selectedFilePath);
+  public static final String FILE_ERROR = "Error File Not Found";
+  public static final String FILE_NOT_FOUND = "File Not Found";
+  public static final String URL_ERROR = "URL Error";
+  public static final String IO_ERROR = "Cannot Read/Write File!";
 
-        String[] parts = selectedFilePath.split("/");
-        final String fileName = parts[parts.length - 1];
+  private String SERVER_URL;
 
-        if (!selectedFile.isFile()) {
+  public FileManger(String SERVER_URL) {
+    this.SERVER_URL = SERVER_URL;
 
-            return "Error File Not Found";
-        } else {
-            try {
-                FileInputStream fileInputStream = new FileInputStream(selectedFile);
+  }
 
-                URL url = new URL(SERVER_URL);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);//Allow Inputs
-                connection.setDoOutput(true);//Allow Outputs
-                connection.setUseCaches(false);//Don't use a cached Copy
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Connection", "Keep-Alive");
-                connection.setRequestProperty("ENCTYPE", "multipart/form-data");
-                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                connection.setRequestProperty("uploaded_file", selectedFilePath);
-                dataOutputStream = new DataOutputStream(connection.getOutputStream());
+  public FileResponse uploadFile(String selectedFilePath) {
+    FileResponse response = new FileResponse();
+    String result = "Error";
+    int serverResponseCode = 0;
 
-                dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
-                        + selectedFilePath + "\"" + lineEnd);
-
-                dataOutputStream.writeBytes(lineEnd);
-
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-                    dataOutputStream.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                }
-
-                dataOutputStream.writeBytes(lineEnd);
-                dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+    HttpURLConnection connection;
+    DataOutputStream dataOutputStream;
+    String lineEnd = "\r\n";
+    String twoHyphens = "--";
+    String boundary = "*****";
 
 
+    int bytesRead, bytesAvailable, bufferSize;
+    byte[] buffer;
+    int maxBufferSize = 1 * 1024 * 1024;
+    File selectedFile = new File(selectedFilePath);
 
-                serverResponseCode = connection.getResponseCode();
-                String serverResponseMessage = connection.getResponseMessage();
-                if (serverResponseCode != 200) {
+    String[] parts = selectedFilePath.split("/");
+    final String fileName = parts[parts.length - 1];
 
-                    return "Error Server code" + serverResponseCode + " Message " + serverResponseMessage;
-                }
-                //get return msg from server
-                InputStream inputStream = null;
-                inputStream = connection.getInputStream();
-                result = this.convertStreamToString(inputStream);
-                inputStream.close();
-               // result=serverResponseMessage;
-                //closing the input and output streams
-                fileInputStream.close();
-                dataOutputStream.flush();
-                dataOutputStream.close();
+    if (!selectedFile.isFile()) {
+      response.setCode(400);
+      response.setResponse(FILE_ERROR);
+      return response;
+    } else {
+      try {
+        FileInputStream fileInputStream = new FileInputStream(selectedFile);
 
+        URL url = new URL(SERVER_URL);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setDoInput(true);//Allow Inputs
+        connection.setDoOutput(true);//Allow Outputs
+        connection.setUseCaches(false);//Don't use a cached Copy
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Connection", "Keep-Alive");
+        connection.setRequestProperty("ENCTYPE", "multipart/form-data");
+        connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+        connection.setRequestProperty("uploaded_file", selectedFilePath);
+        dataOutputStream = new DataOutputStream(connection.getOutputStream());
 
+        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+          + selectedFilePath + "\"" + lineEnd);
 
+        dataOutputStream.writeBytes(lineEnd);
 
-            } catch (FileNotFoundException e) {
-                return "File Not Found";
+        bytesAvailable = fileInputStream.available();
+        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+        buffer = new byte[bufferSize];
 
+        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
-            } catch (MalformedURLException e) {
-                return "URL error!";
-
-            } catch (IOException e) {
-                return "Cannot Read/Write File!";
-            }
-            //  dialog.dismiss();
-            return result;
+        while (bytesRead > 0) {
+          dataOutputStream.write(buffer, 0, bufferSize);
+          bytesAvailable = fileInputStream.available();
+          bufferSize = Math.min(bytesAvailable, maxBufferSize);
+          bytesRead = fileInputStream.read(buffer, 0, bufferSize);
         }
 
-    }
+        dataOutputStream.writeBytes(lineEnd);
+        dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
-    private String convertStreamToString(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
 
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        serverResponseCode = connection.getResponseCode();
+        String serverResponseMessage = connection.getResponseMessage();
+        if (serverResponseCode != 200) {
+          response.setCode(serverResponseCode);
+          response.setResponse(serverResponseMessage);
+          return response;
         }
-        return sb.toString();
+        //get return msg from server
+        InputStream inputStream = null;
+        inputStream = connection.getInputStream();
+        result = this.convertStreamToString(inputStream);
+        inputStream.close();
+        // result=serverResponseMessage;
+        //closing the input and output streams
+        fileInputStream.close();
+        dataOutputStream.flush();
+        dataOutputStream.close();
+
+
+      } catch (FileNotFoundException e) {
+        response.setCode(400);
+        response.setResponse(FILE_NOT_FOUND);
+        return response;
+      } catch (MalformedURLException e) {
+        response.setCode(400);
+        response.setResponse(URL_ERROR);
+        return response;
+      } catch (IOException e) {
+        response.setCode(400);
+        response.setResponse(IO_ERROR);
+        return response;
+      }
+      //  dialog.dismiss();
+      response.setCode(serverResponseCode);
+      response.setResponse(result);
+      return response;
     }
+
+  }
+
+  private String convertStreamToString(InputStream is) {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+    StringBuilder sb = new StringBuilder();
+
+    String line = null;
+    try {
+      while ((line = reader.readLine()) != null) {
+        sb.append(line);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        is.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    return sb.toString();
+  }
 
 
 }

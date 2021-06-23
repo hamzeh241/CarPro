@@ -25,6 +25,9 @@
     <string name="network_error_title">خطای اینترنت</string>
     <string name="timeout_error_title">خطای اینترنت</string>
 
+
+    <string name="code_digits">0123456789۰۱۲۳۴۵۶۷۸۹</string>
+
     <string name="brand">برند</string>
     <string name="engineSituation">وضعیت موتور</string>
     <string name="Chassis">وضعیت شاسی</string>
@@ -88,6 +91,10 @@
     <string name="exit_account">خروج از حساب</string>
     <string name="no_photo_selected">لطفا یک عکس انتخاب کنید</string>
     <string name="enable_permission">برای کار کردن اپلیکیشن باید مجوز ها فراخوانی شوند</string>
+    <string name="upload_error">خطا در آپلود</string>
+    <string name="file_error">فایل مورد نظر یا پاک شده یا برنامه به آن دسترسی ندارد</string>
+    <string name="url_error">آدرس آپلود عکس اشتباه است</string>
+    <string name="io_error">در خواندن عکس مورد نظر خطایی رخ داد</string>
 
 
 </resources>

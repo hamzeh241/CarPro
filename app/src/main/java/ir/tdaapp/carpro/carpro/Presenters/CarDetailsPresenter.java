@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.bumptech.glide.load.resource.file.FileResource;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -68,31 +69,32 @@ public class CarDetailsPresenter {
   }
 
   public void requestStoragePermission(Activity activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      Dexter.withActivity(activity)
-        .withPermissions(Manifest.permission_group.STORAGE, Manifest.permission.CAMERA)
-        .withListener(new MultiplePermissionsListener() {
-          @Override
-          public void onPermissionsChecked(MultiplePermissionsReport report) {
-            if (report.areAllPermissionsGranted()) {
-              service.onStoragePermissionGranted();
-            } else {
-              service.onStoragePermissionDenied();
-            }
+    Dexter.withActivity(activity)
+      .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA)
+      .withListener(new MultiplePermissionsListener() {
+        @Override
+        public void onPermissionsChecked(MultiplePermissionsReport report) {
+          if (report.areAllPermissionsGranted()) {
+            service.onStoragePermissionGranted();
+          } else {
+            service.onStoragePermissionDenied();
           }
+        }
 
-          @Override
-          public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+        @Override
+        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
 
-          }
-        }).check();
-    } else service.onStoragePermissionGranted();
+        }
+      }).check();
   }
 
   public void openImageSelector(FragmentActivity activity) {
     Handler handler = new Handler();
     List<Uri> selectedUriList = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
+    ArrayList<FileManger.FileResponse> responses = new ArrayList<>();
     TedBottomPicker.with(activity)
       .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels / 2)
       .showTitle(false)
@@ -105,16 +107,23 @@ public class CarDetailsPresenter {
         new Thread(() -> {
           service.onImageUploading(true);
 
-          FileManger fileManger = new FileManger(BaseRepository.API_IMAGE_CAR);
+          FileManger fileManger = new FileManger(BaseRepository.API_ADD_IMAGE_USER);
           CompressImage compressImage = new CompressImage(320, 450, 75, activity);
           for (Uri uri : uriList) {
             String imagePath = uri.getPath();
             Bitmap b = compressImage.Compress(imagePath);
             String Name = GetRandom.GetLong() + ".jpg";
-            images.add(fileManger.uploadFile(SaveImageToMob.SaveImageToSdCard(Name, b)));
+            FileManger.FileResponse response = fileManger.uploadFile(SaveImageToMob.SaveImageToSdCard(Name, b));
+            if (response.getCode() == 200) {
+              images.add(response.getResponse());
+              responses.add(response);
+            } else {
+              responses.add(response);
+              service.onImageUploading(false);
+            }
           }
           service.onImageUploading(false);
-          handler.post(() -> service.onImagesUploaded(images, uriList));
+          handler.post(() -> service.onImagesUploaded(responses, uriList));
         }).start();
       });
   }

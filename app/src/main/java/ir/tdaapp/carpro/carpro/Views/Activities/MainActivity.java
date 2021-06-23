@@ -14,11 +14,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
 
+import java.util.List;
+
 import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.DBAdapter;
 import ir.tdaapp.carpro.carpro.Models.Repository.Database.Tbl_User;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
+import ir.tdaapp.carpro.carpro.Views.Fragments.LoginFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.SplashFragment;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -42,6 +45,30 @@ public class MainActivity extends AppCompatActivity {
   private void implement() {
 
     tbl_user = new Tbl_User(MainActivity.this);
+  }
+
+  public void goBackToLogin() {
+    new Thread(() -> {
+      List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+      if (!doesLoginExistBackstack())
+        onAddFragment(new LoginFragment(),
+          R.anim.fadein, R.anim.fadeout,
+          false, LoginFragment.TAG);
+      else for (Fragment fragment : fragments)
+        if (!(fragment instanceof LoginFragment))
+          getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+    }).start();
+  }
+
+  private boolean doesLoginExistBackstack() {
+    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+    for (Fragment fragment : fragments)
+      if (fragment instanceof LoginFragment)
+        return true;
+
+    return false;
   }
 
   public Tbl_User getTbl_user() {

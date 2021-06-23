@@ -53,22 +53,23 @@
             android:textColor="@color/colorWhite"
             android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edit_text_numb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:background="@drawable/stroke_edit_text_centeral_color"
-            android:gravity="right"
-            android:hint="@string/txt_ener_number"
-            android:inputType="number"
-            android:padding="5dp"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceInverse"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:textDirection="ltr"
-            android:textSize="14sp" />
+    <EditText
+      android:id="@+id/edit_text_numb"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="8"
+      android:background="@drawable/stroke_edit_text_centeral_color"
+      android:digits="@string/code_digits"
+      android:gravity="right"
+      android:hint="@string/txt_ener_number"
+      android:inputType="number"
+      android:padding="5dp"
+      android:singleLine="true"
+      android:textAppearance="?android:attr/textAppearanceInverse"
+      android:textColor="@color/colorWhite"
+      android:textColorHint="@color/colorWhite"
+      android:textDirection="ltr"
+      android:textSize="14sp" />
 
     </LinearLayout>
 

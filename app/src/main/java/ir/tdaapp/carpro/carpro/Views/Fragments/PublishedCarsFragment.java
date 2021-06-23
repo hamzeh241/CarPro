@@ -18,6 +18,7 @@ import ir.tdaapp.carpro.carpro.Presenters.AcceptedCarsPresenter;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.databinding.FragmentPublishedCarsViewPagerBinding;
+import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsService {
 
@@ -112,8 +113,32 @@ public class PublishedCarsFragment extends BaseFragment implements AcceptedCarsS
   }
 
   @Override
-  public void onError(String message) {
+  public void onError(ResaultCode code) {
+    String error = "";
+    String title = "";
 
+    switch (code) {
+      case TimeoutError:
+        error = getString(R.string.timeout_error);
+        title = getString(R.string.timeout_error_title);
+        break;
+      case NetworkError:
+        error = getString(R.string.network_error);
+        title = getString(R.string.network_error_title);
+        break;
+      case ServerError:
+        error = getString(R.string.server_error);
+        title = getString(R.string.server_error_title);
+        break;
+      case ParseError:
+      case Error:
+        title = getString(R.string.unknown_error_title);
+        error = getString(R.string.unknown_error);
+        break;
+    }
+
+    showErrorDialog(title, error, () ->
+      startPresenter());
   }
 
   @Override

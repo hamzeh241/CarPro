@@ -26,7 +26,9 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Presenters.HomeFragmentPresenter;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Dialogs.ConfirmationDialog;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.ErrorDialog;
+import ir.tdaapp.carpro.carpro.databinding.FragmentEditMemberBinding;
 import ir.tdaapp.carpro.carpro.databinding.FragmentHomeBinding;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 
@@ -58,6 +60,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     binding.waitingLayout.setOnClickListener(this);
     binding.acceptedCarsLayout.setOnClickListener(this);
     binding.archivedLayout.setOnClickListener(this);
+    binding.logout.setOnClickListener(this);
   }
 
   @Override
@@ -83,8 +86,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ((MainActivity) getActivity()).onAddFragment(new DashboardFragment(2), R.anim.fadein, R.anim.fadeout,
           true, DashboardFragment.TAG);
         break;
-    }
+      case R.id.logout:
+        ConfirmationDialog dialog = new ConfirmationDialog("مطمئنید؟",
+          "آیا میخواهید از حساب خود خارج شوید؟",
+          new ConfirmationDialog.onConfirmationClick() {
+            @Override
+            public void onPressedYes() {
+              ((MainActivity) getActivity()).getTbl_user().removeUser();
+              ((MainActivity) getActivity()).goBackToLogin();
+            }
 
+            @Override
+            public void onPressedNo() {
+
+            }
+          });
+        dialog.show(getActivity().getSupportFragmentManager(), ConfirmationDialog.TAG);
+        break;
+    }
   }
 
   @Override

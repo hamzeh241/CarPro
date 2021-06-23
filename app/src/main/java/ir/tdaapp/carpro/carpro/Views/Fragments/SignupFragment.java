@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 
+import androidx.exifinterface.media.ExifInterface;
 import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.MembersAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.SignUpService;
@@ -23,9 +25,12 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.UserModel;
 import ir.tdaapp.carpro.carpro.Presenters.SignupFragmentPresenter;
 import ir.tdaapp.carpro.carpro.R;
+import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.AuthorizeDialog;
+import ir.tdaapp.carpro.carpro.Views.Dialogs.ConfirmationDialog;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.MessageDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentSignupBinding;
+import ir.tdaapp.li_utility.Codes.Replace;
 import ir.tdaapp.li_utility.Codes.Validation;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 
@@ -54,9 +59,7 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
   }
 
   private void implement() {
-
     presenter = new SignupFragmentPresenter(getContext(), this);
-    presenter.start();
     binding.btnSignup.setOnClickListener(this);
     binding.imgBackSignup.setOnClickListener(this);
     binding.addPhotoLayout.setOnClickListener(this);
@@ -65,20 +68,16 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
     uploading = new MessageDialog("در حال آپلود عکس...", false);
     sending = new MessageDialog("در حال ثبت عکس...", false);
     userModel = new UserModel();
-
-
   }
 
 
   @Override
   public void onClick(View v) {
-
     switch (v.getId()) {
-
       case R.id.btn_signup:
         if (checkValidation()) {
           userModel.setName(binding.edtName.getText().toString());
-          userModel.setCellPhone(binding.edtPhone.getText().toString());
+          userModel.setCellPhone(Replace.Number_fn_To_en(binding.edtPhone.getText().toString()));
           userModel.setEmail(binding.edtEmail.getText().toString());
           userModel.setImageUrl(imageUrl);
           presenter.signup(userModel);
@@ -156,7 +155,38 @@ public class SignupFragment extends BaseFragment implements View.OnClickListener
     if (response.isResult()) {
       Toasty.success(getContext(), message).show();
       authorize();
-    } else Toasty.error(getContext(), message).show();
+    } else {
+      Toasty.error(getContext(), message).show();
+      if (response.getCode() == 302) {
+        showConfirmationDialog("هشدار", message, new ConfirmationDialog.onConfirmationClick() {
+          @Override
+          public void onPressedYes() {
+            ((MainActivity) getActivity()).onAddFragment(new LoginFragment(),
+              R.anim.fadein, R.anim.fadeout, true, HomeFragment.TAG);
+          }
+
+          @Override
+          public void onPressedNo() {
+
+          }
+        });
+      } else if (response.getCode() == 400) {
+        showConfirmationDialog("هشدار", message, new ConfirmationDialog.onConfirmationClick() {
+          @Override
+          public void onPressedYes() {
+            ((MainActivity) getActivity()).onAddFragment(new LoginFragment(),
+              R.anim.fadein, R.anim.fadeout, true, HomeFragment.TAG);
+          }
+
+          @Override
+          public void onPressedNo() {
+
+          }
+        });
+      }
+    }
+
+
   }
 
   @Override

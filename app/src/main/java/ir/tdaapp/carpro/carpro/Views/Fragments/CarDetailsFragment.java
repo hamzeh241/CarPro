@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -28,6 +29,7 @@ import es.dmoral.toasty.Toasty;
 import ir.tdaapp.carpro.carpro.Models.Adapters.CarDetailsPhotosAdapter;
 import ir.tdaapp.carpro.carpro.Models.Services.CarDetailsService;
 import ir.tdaapp.carpro.carpro.Models.Services.onCarPhotosListener;
+import ir.tdaapp.carpro.carpro.Models.Utilities.FileManger;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarChipsListModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailPhotoModel;
@@ -35,8 +37,10 @@ import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailsEntryModel;
 import ir.tdaapp.carpro.carpro.Presenters.CarDetailsPresenter;
 import ir.tdaapp.carpro.carpro.R;
 import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
+import ir.tdaapp.carpro.carpro.Views.Dialogs.ErrorDialog;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.ImageViewerDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentCarDetailsBinding;
+import ir.tdaapp.li_utility.Codes.Replace;
 import ir.tdaapp.li_utility.Codes.Validation;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 
@@ -170,16 +174,20 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
 
   }
 
+  private void setText(EditText edt, String text) {
+    edt.setText(Replace.Number_en_To_fa(text));
+  }
+
   @Override
   public void onItemReceived(CarDetailModel item) {
     this.item = item;
     modelId = item.getBrandId();
-    binding.includeContentAddCar.edtTitle.setText(item.getTitle());
-    binding.includeContentAddCar.edtMileage.setText(new StringBuilder().append("").append(item.getFunction()).toString());
-    binding.includeContentAddCar.edtPrice.setText(new StringBuilder().append("").append(item.getPrice()).toString());
-    binding.includeContentAddCarDescription.edtDescription.setText(item.getDescription());
-    binding.includeContentAddCarContactInfo.edtAddress.setText(item.getAddress());
-    binding.includeContentAddCarContactInfo.edtPhone.setText(item.getPhone());
+    setText(binding.includeContentAddCar.edtTitle, item.getTitle());
+    setText(binding.includeContentAddCar.edtMileage, new StringBuilder().append("").append(item.getFunction()).toString());
+    setText(binding.includeContentAddCar.edtPrice, new StringBuilder().append("").append(item.getPrice()).toString());
+    setText(binding.includeContentAddCarDescription.edtDescription, item.getDescription());
+    setText(binding.includeContentAddCarContactInfo.edtAddress, item.getAddress());
+    setText(binding.includeContentAddCarContactInfo.edtPhone, item.getPhone());
     binding.includeContentAddCarMoreInfo.checkboxExchange.setChecked(item.isExchange());
 
     photos = item.getPhotos();
@@ -380,11 +388,36 @@ public class CarDetailsFragment extends BaseFragment implements CarDetailsServic
   }
 
   @Override
-  public void onImagesUploaded(ArrayList<String> arrayList, List<Uri> uris) {
+  public void onImagesUploaded(ArrayList<FileManger.FileResponse> responses, List<Uri> uris) {
     photos = adapter.getModels();
-    for (String s : arrayList) {
-//      photos.add(new CarDetailPhotoModel(s));
-      adapter.add(new CarDetailPhotoModel(s));
+    for (FileManger.FileResponse s : responses) {
+      if (s.getCode() == 200)
+        adapter.add(new CarDetailPhotoModel(s.getResponse()));
+      else {
+        adapter.add(new CarDetailPhotoModel(s.getResponse()));
+        switch (s.getResponse()) {
+          case FileManger.FILE_ERROR:
+            showErrorDialog(getString(R.string.upload_error), getString(R.string.file_error), () -> {
+
+            });
+            break;
+          case FileManger.URL_ERROR:
+            showErrorDialog(getString(R.string.upload_error), getString(R.string.url_error), () -> {
+
+            });
+            break;
+          case FileManger.IO_ERROR:
+            showErrorDialog(getString(R.string.upload_error), getString(R.string.io_error), () -> {
+
+            });
+            break;
+          default:
+            showErrorDialog(getString(R.string.upload_error), getString(R.string.error_occured), () -> {
+
+            });
+            break;
+        }
+      }
     }
   }
 

@@ -26,6 +26,7 @@ import ir.tdaapp.carpro.carpro.Views.Fragments.HomeFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.LoginFragment;
 import ir.tdaapp.carpro.carpro.Views.Fragments.UserConfigurationMessageFragment;
 import ir.tdaapp.carpro.carpro.databinding.DialogAuthorizeBinding;
+import ir.tdaapp.li_utility.Codes.Replace;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogService, View.OnClickListener {
@@ -45,23 +46,22 @@ public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogSe
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     binding = DialogAuthorizeBinding.inflate(inflater, container, false);
-
+    setCancelable(false);
     implement();
     return binding.getRoot();
   }
 
   private void implement() {
     presenter = new AuthorizeDialogPresenter(getContext(), this);
-    password = binding.etRecivedCode.getText().toString();
-    presenter.start(number, password);
-    binding.btnConfiguration.setOnClickListener(this);
+    password = binding.edtCode.getText().toString();
+    binding.btnSubmit.setOnClickListener(this);
 
-    binding.etRecivedCode.setOnKeyListener((v, keyCode, event) -> {
+    binding.edtCode.setOnKeyListener((v, keyCode, event) -> {
       // If the event is a key-down event on the "enter" button
       if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
         (keyCode == KeyEvent.KEYCODE_ENTER)) {
         // Perform action on key press
-        binding.btnConfiguration.performClick();
+        binding.btnSubmit.performClick();
         return true;
       }
       return false;
@@ -69,17 +69,24 @@ public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogSe
   }
 
   @Override
+  public int getTheme() {
+    return R.style.RoundedCornersDialog;
+  }
+
+  @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.btn_configuration:
-        presenter.authorize(number, binding.etRecivedCode.getText().toString());
+      case R.id.btnSubmit:
+        presenter.authorize(Replace.Number_fn_To_en(number), Replace.Number_fn_To_en(binding.edtCode.getText().toString()));
         break;
     }
   }
 
   @Override
   public void onLoading(boolean state) {
-
+    binding.btnSubmit.setEnabled(!state);
+    binding.mkLoader.setVisibility(state ? View.VISIBLE : View.GONE);
+    binding.textView7.setVisibility(state ? View.GONE : View.VISIBLE);
   }
 
   @Override
@@ -108,7 +115,6 @@ public class AuthorizeDialog extends DialogFragment implements AuthorizeDialogSe
     }
 
     ErrorDialog dialog = new ErrorDialog(title, error, () -> {
-      Toasty.error(getContext(), "Returned").show();
     });
 
     dialog.show(getActivity().getSupportFragmentManager(), ErrorDialog.TAG);

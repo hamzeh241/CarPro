@@ -5,6 +5,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.tdaapp.carpro.carpro.Models.Utilities.FileManger;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.ApiDefaultResponse;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarChipsListModel;
 import ir.tdaapp.carpro.carpro.Models.ViewModels.CarDetailModel;
@@ -52,8 +53,7 @@ public interface CarDetailsService {
 
   void onColorsReceived(List<CarDetailsEntryModel> model);
 
-
-  void onImagesUploaded(ArrayList<String> arrayList, List<Uri> uris);
+  void onImagesUploaded(ArrayList<FileManger.FileResponse> responses, List<Uri> uris);
 
   void onImageUploading(boolean loading);
 

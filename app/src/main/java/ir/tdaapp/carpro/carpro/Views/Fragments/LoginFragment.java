@@ -24,6 +24,7 @@ import ir.tdaapp.carpro.carpro.Views.Activities.MainActivity;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.AuthorizeDialog;
 import ir.tdaapp.carpro.carpro.Views.Dialogs.ErrorDialog;
 import ir.tdaapp.carpro.carpro.databinding.FragmentLogInBinding;
+import ir.tdaapp.li_utility.Codes.Replace;
 import ir.tdaapp.li_volley.Enum.ResaultCode;
 
 public class LoginFragment extends BaseFragment implements LoginFragmentService, View.OnClickListener {
@@ -60,7 +61,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
         if (binding.editTextNumb.getText().toString().equalsIgnoreCase("")) {
           Toast.makeText(getContext(), R.string.txt_ener_number, Toast.LENGTH_SHORT).show();
         } else {
-          presenter.login(binding.editTextNumb.getText().toString());
+          presenter.login(Replace.Number_fn_To_en(binding.editTextNumb.getText().toString()));
         }
         break;
       case R.id.NewAccount:
@@ -120,7 +121,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentService,
     }
 
     showErrorDialog(title, error, () -> {
-      Toasty.error(getContext(), "Returned").show();
+      presenter.login(Replace.Number_fn_To_en(binding.editTextNumb.getText().toString()));
     });
   }
 
